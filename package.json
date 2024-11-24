@@ -40,7 +40,9 @@
     "react-native-screens": "~4.1.0",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.4"
+    "react-native-webview": "13.12.4",
+    "@shopify/flash-list": "1.7.1",
+    "expo-dev-client": "~5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

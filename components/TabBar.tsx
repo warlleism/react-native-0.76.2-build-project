@@ -11,10 +11,10 @@ type IconKey = 'index' | 'explore' | 'profile' | 'create';
 export default function TabBar({ state, descriptors, navigation }: any) {
 
     const icons = {
-        index: (props: any) => <IoHomeOutline name="home" size={25} color="#fff" {...props} />,
-        explore: (props: any) => <MdOutlineExplore name="explore" size={25} color="#fff" {...props} />,
-        profile: (props: any) => <FaRegUserCircle name="user" size={25} color="#fff" {...props} />,
-        create: (props: any) => <IoCreateOutline name="create" size={25} color="#fff" {...props} />,
+        'index': (props: any) => <IoHomeOutline name="home" size={25} color="#fff" {...props} />,
+        'explore': (props: any) => <MdOutlineExplore name="explore" size={25} color="#fff" {...props} />,
+        'profile': (props: any) => <FaRegUserCircle name="user" size={25} color="#fff" {...props} />,
+        'create': (props: any) => <IoCreateOutline name="create" size={25} color="#fff" {...props} />,
     };
 
     const primaryColor = '#0891b2';

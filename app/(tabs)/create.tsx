@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import BackButton from '@/components/backButton';
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export default function CreateScreen() {
     return (
         <View>
-            <Text><colgroup></colgroup>reate</Text>
+            <BackButton />
+            <Text>create</Text>
         </View>
-    )
+    );
 }
