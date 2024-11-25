@@ -55,6 +55,7 @@ export default function HomeScreen() {
 
             <Link href={'/screens/product/10' as never} >Product</Link>
             <Button title='Go to random product' onPress={goToProduct}></Button>
+            <Button title='products' onPress={() => router.push('/screens/products/mcdonalds' as never)}></Button>
             <FlashList
                 data={DATA}
                 renderItem={({ item }) => (
