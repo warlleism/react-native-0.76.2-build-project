@@ -1,4 +1,4 @@
-import TabBar from "@/components/TabBar";
+import TabBar from "@/app/components/TabBar";
 import { Tabs } from "expo-router";
 
 export default function RootLayout() {
@@ -12,6 +12,5 @@ export default function RootLayout() {
             <Tabs.Screen name="profile" />
             <Tabs.Screen name="explore" />
         </Tabs>
-
     );
 }

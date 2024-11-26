@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import BackButton from '@/components/backButton'
+import BackButton from '@/app/components/backButton'
 
 export default function ProfileScreen() {
     return (

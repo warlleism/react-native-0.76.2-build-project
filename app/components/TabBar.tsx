@@ -1,23 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { IoHomeOutline } from "react-icons/io5";
-import { MdOutlineExplore } from "react-icons/md";
-import { FaRegUserCircle } from "react-icons/fa";
-import { IoCreateOutline } from "react-icons/io5";
-
-type IconKey = 'index' | 'explore' | 'profile' | 'create';
-
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+type IconKey = 'index' | 'create' | 'profile' | 'explore';
 
 export default function TabBar({ state, descriptors, navigation }: any) {
 
     const icons = {
-        'index': (props: any) => <IoHomeOutline name="home" size={25} color="#fff" {...props} />,
-        'explore': (props: any) => <MdOutlineExplore name="explore" size={25} color="#fff" {...props} />,
-        'profile': (props: any) => <FaRegUserCircle name="user" size={25} color="#fff" {...props} />,
-        'create': (props: any) => <IoCreateOutline name="create" size={25} color="#fff" {...props} />,
+        'index': (props: any) => <AntDesign name="home" size={25} color="#fff" {...props} />,
+        'create': (props: any) => <Ionicons name="create-outline" size={25} color="#fff" {...props} />,
+        'profile': (props: any) => <AntDesign name="user" size={25} color="#fff" {...props} />,
+        'explore': (props: any) => <FontAwesome5 name="wpexplorer" size={25} color="#fff" {...props} />,
     };
 
-    const primaryColor = '#0891b2';
+    const primaryColor = '#FF8000';
     const secondaryColor = '#737373';
 
     return (
@@ -70,7 +67,7 @@ export default function TabBar({ state, descriptors, navigation }: any) {
                         })}
 
                         <Text style={{ color: isFocused ? primaryColor : secondaryColor }}>
-                            {label}
+                            {label == 'index' ? "Home" : label}
                         </Text>
                     </TouchableOpacity>
                 );

@@ -1,6 +1,7 @@
-import BackButton from '@/components/backButton';
+import BackButton from '@/app/components/backButton';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
+import useStore from '../context/provider';
 
 export default function CreateScreen() {
     return (
