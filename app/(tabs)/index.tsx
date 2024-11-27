@@ -7,6 +7,7 @@ import { Bangers_400Regular } from '@expo-google-fonts/bangers';
 import HomeProducts from '@/assets/data/home-products/data';
 import useCounterStore from '../context/provider';
 import IProduct from '../interfaces/product';
+import Menu from '../components/menu';
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,9 +31,9 @@ export default function HomeScreen() {
 
     return (
         <ScrollView style={styles.container}>
+            <Menu />
             <View>
                 <View style={styles.header}>
-                    <Image style={styles.logo} source={require('../../assets/logos/burger.png')} />
                     <Text style={styles.title}>Restaurantes</Text>
                 </View>
                 <ScrollView
@@ -94,8 +95,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: "100%",
         height: 50,
-        flexDirection: "row",
-        alignItems: "center",
         gap: 5,
         paddingLeft: width * 0.02,
     },

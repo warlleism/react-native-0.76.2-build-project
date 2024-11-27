@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import Products from "@/assets/data/products/data";
-import { Dimensions, ScrollView, StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput, SafeAreaView } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import BackButton from "@/app/components/backButton";
 import { Roboto_100Thin, Roboto_300Light, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
@@ -44,7 +44,7 @@ export default function ProductsScreen() {
     }
 
     return (
-        <View style={{ backgroundColor: "#fff" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
             <BackButton />
             <ScrollView>
                 {/* <Text style={{ marginTop: StatusBar.currentHeight || 0, }}>Products</Text> */}
@@ -84,7 +84,7 @@ export default function ProductsScreen() {
                         contentContainerStyle={styles.flashMoreContent}
                     />
                 </View>
-                <View>
+                <View style={{ marginBottom: 20 }}>
                     <Text style={{
                         marginLeft: 20,
                         fontSize: 25,
@@ -114,7 +114,7 @@ export default function ProductsScreen() {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 };
 

@@ -2,16 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-type IconKey = 'index' | 'create' | 'profile' | 'explore';
+type IconKey = 'index' | 'create' | 'profile';
 
 export default function TabBar({ state, descriptors, navigation }: any) {
 
     const icons = {
         'index': (props: any) => <AntDesign name="home" size={25} color="#fff" {...props} />,
         'create': (props: any) => <Ionicons name="create-outline" size={25} color="#fff" {...props} />,
-        'profile': (props: any) => <AntDesign name="user" size={25} color="#fff" {...props} />,
-        'explore': (props: any) => <FontAwesome5 name="wpexplorer" size={25} color="#fff" {...props} />,
+        'profile': (props: any) => <AntDesign name="user" size={25} color="#fff" {...props} />
     };
 
     const primaryColor = '#FF8000';

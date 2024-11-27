@@ -2,13 +2,18 @@ import useCounterStore from "@/app/context/provider";
 import BackButton from "@/app/components/backButton";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
 import { Roboto_100Thin, Roboto_300Light, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
-import { Button, Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Platform } from 'react-native';
+import useCartStore from "@/app/context/cartProvider";
 
 const { width, height } = Dimensions.get("window");
 
 export default function ProductDetailScreen() {
+
     const { product } = useCounterStore();
+    const { addProduct, cart } = useCartStore();
+    console.log(cart)
+
     const [fontsLoaded] = useFonts({
         Roboto_100Thin,
         Roboto_300Light,
@@ -39,7 +44,7 @@ export default function ProductDetailScreen() {
                 position: "absolute",
                 bottom: 20,
             }}>
-                <TouchableOpacity style={styles.buyButton}>
+                <TouchableOpacity style={styles.buyButton} onPress={() => addProduct({ ...product, qtd: 1 })}>
                     <Text style={styles.buyButtonText}>Comprar</Text>
                 </TouchableOpacity>
             </View>

@@ -15,6 +15,12 @@ export default function RootLayout() {
                     headerTitle: "product",
                     headerShown: false
                 }} />
+            <Stack.Screen
+                name="screens/Cart/index"
+                options={{
+                    headerTitle: "cart",
+                    headerShown: false
+                }} />
         </Stack>
     );
 }

@@ -5,5 +5,6 @@ export default interface IProduct {
     image: string,
     logo?: any,
     name: string,
-    price: string
+    price: string,
+    qtd?: number
 };
