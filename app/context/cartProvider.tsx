@@ -19,7 +19,7 @@ const useCartStore = create<CounterState>((set) => ({
     })),
 
     removeProduct: (data: IProduct) => set((state) => {
-        const filteredCart = state.cart ? state.cart.filter((item: IProduct) => item.id !== data.id) : [];
+        const filteredCart = state.cart ? state.cart.filter((item: IProduct) => item.name !== data.name) : [];
         return { cart: filteredCart };
     }),
 

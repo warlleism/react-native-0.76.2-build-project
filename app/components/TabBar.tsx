@@ -2,14 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
-type IconKey = 'index' | 'create' | 'profile';
+
+type IconKey = '(tabs)/index' | '(tabs)/create' | '(tabs)/profile';
 
 export default function TabBar({ state, descriptors, navigation }: any) {
 
     const icons = {
-        'index': (props: any) => <AntDesign name="home" size={25} color="#fff" {...props} />,
-        'create': (props: any) => <Ionicons name="create-outline" size={25} color="#fff" {...props} />,
-        'profile': (props: any) => <AntDesign name="user" size={25} color="#fff" {...props} />
+        '(tabs)/index': (props: any) => <AntDesign name="home" size={25} color="#fff" {...props} />,
+        '(tabs)/create': (props: any) => <Ionicons name="create-outline" size={25} color="#fff" {...props} />,
+        '(tabs)/profile': (props: any) => <AntDesign name="user" size={25} color="#fff" {...props} />
     };
 
     const primaryColor = '#FF8000';
@@ -18,6 +19,7 @@ export default function TabBar({ state, descriptors, navigation }: any) {
     return (
         <View style={styles.TabBar}>
             {state.routes.map((route: any, index: number) => {
+
                 const { options } = descriptors[route.key];
                 const label =
                     options.tabBarLabel !== undefined
@@ -26,7 +28,20 @@ export default function TabBar({ state, descriptors, navigation }: any) {
                             ? options.title
                             : route.name;
 
-                if (['_sitemap', '+not-found'].includes(route.name)) return null;
+                if (['_sitemap',
+                    '+not-found',
+                    'screens/ProductDetailAll/[producttype]',
+                    'screens/Cart/index',
+                    'screens/Cart/index',
+                    'screens/ProductDetail/index',
+                    'context/cartProvider',
+                    'context/provider',
+                    'components/backButton/index',
+                    'components/CustomDrawerContent/index',
+                    'components/TabBar',
+                    'components/menu/index',
+                    'screens/ProductDetailAll/test',
+                ].includes(route.name)) return null;
 
                 const isFocused = state.index === index;
 
@@ -65,7 +80,7 @@ export default function TabBar({ state, descriptors, navigation }: any) {
                         })}
 
                         <Text style={{ color: isFocused ? primaryColor : secondaryColor }}>
-                            {label == 'index' ? "Home" : label}
+                            {label.replace('(tabs)/', '') == 'index' ? "Home" : label.replace('(tabs)/', '')}
                         </Text>
                     </TouchableOpacity>
                 );

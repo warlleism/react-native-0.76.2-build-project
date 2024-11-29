@@ -1,7 +1,7 @@
 import useCounterStore from "@/app/context/provider";
 import BackButton from "@/app/components/backButton";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
-import { Roboto_100Thin, Roboto_300Light, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
+import { useFonts } from "@expo-google-fonts/roboto";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Platform } from 'react-native';
 import useCartStore from "@/app/context/cartProvider";
@@ -11,13 +11,9 @@ const { width, height } = Dimensions.get("window");
 export default function ProductDetailScreen() {
 
     const { product } = useCounterStore();
-    const { addProduct, cart } = useCartStore();
-    console.log(cart)
+    const { addProduct } = useCartStore();
 
     const [fontsLoaded] = useFonts({
-        Roboto_100Thin,
-        Roboto_300Light,
-        Roboto_700Bold,
         Bangers_400Regular
     });
 
@@ -29,7 +25,7 @@ export default function ProductDetailScreen() {
             <View>
                 <View style={styles.imageContainer}>
                     <Image source={product.logo} style={styles.logo} />
-                    <Image source={{ uri: product.image }} style={styles.productImage} />
+                    <Image source={product.image} style={styles.productImage} />
                 </View>
                 <View style={{ padding: 20 }}>
                     <Text style={styles.productName}>{product.name}</Text>
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     productName: {
-        fontSize: 55,
+        fontSize: 45,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({

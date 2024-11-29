@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import Products from "@/assets/data/products/data";
-import { Dimensions, ScrollView, StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput, SafeAreaView } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { Dimensions, ScrollView, StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput, ViewStyle } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import BackButton from "@/app/components/backButton";
-import { Roboto_100Thin, Roboto_300Light, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
+import { useFonts } from "@expo-google-fonts/roboto";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
 import IProduct from "@/app/interfaces/product";
 import useCounterStore from "@/app/context/provider";
-
 const { width, height } = Dimensions.get("window");
 
 type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
-export default function ProductsScreen() {
-
+export default function ProductsDetailAllScreen() {
+    const router = useRouter();
     const [mcDonaldsMoreRequestData, setMcdonaldsMoreRequestData] = useState<any[]>([]);
     const [mcDonaldsList, setMcDonaldsList] = useState<any[]>([]);
     const { producttype } = useLocalSearchParams();
     const { listProduct } = useCounterStore();
     const [fontsLoaded] = useFonts({
-        Roboto_100Thin,
-        Roboto_300Light,
-        Roboto_700Bold,
         Bangers_400Regular
     });
 
@@ -35,93 +31,93 @@ export default function ProductsScreen() {
             }
         };
         getData();
-    }, []);
-
+    }, [producttype]);
 
     function handleProduct(data: IProduct) {
         listProduct(data);
-        router.push('/screens/ProductDetail' as never);
+        router.push('../ProductDetail' as never);
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <View style={{ backgroundColor: "#fff", height: height }} >
             <BackButton />
-            <ScrollView>
-                {/* <Text style={{ marginTop: StatusBar.currentHeight || 0, }}>Products</Text> */}
-                <View style={{ height: 50, width: "100%", paddingHorizontal: 10, borderRadius: 10, overflow: "hidden", marginBottom: 20 }}>
-                    <TextInput placeholder="Pesquisar" style={{ width: "100%", height: "100%", backgroundColor: "#EFEFEF", borderRadius: 10, }} />
-                </View>
-                <View style={{ paddingLeft: 20, justifyContent: "center", marginBottom: 20 }}>
-                    <Text style={{
-                        fontSize: 30,
-                        fontWeight: "500",
-                        color: "#FF8000",
-                        fontFamily: Platform.select({
-                            android: 'Bangers_400Regular',
-                            ios: 'Bangers_400Regular',
-                        }),
-                    }}>Mais pedidos</Text>
-                    <FlashList
-                        data={mcDonaldsMoreRequestData}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cart}>
-                                <View style={{
-                                    width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
-                                    borderTopEndRadius: 10, borderTopStartRadius: 10, overflow: "hidden"
-                                }}>
-                                    <Image source={{ uri: item.image }} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
-                                </View>
-                                <View style={{ padding: 10 }}>
-                                    <Text style={styles.text}>{item.name}</Text>
-                                    <Text style={[styles.text, { fontSize: 15, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )}
-                        horizontal
-                        keyExtractor={(item, index) => index.toString()}
-                        estimatedItemSize={100}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.flashMoreContent}
-                    />
-                </View>
-                <View style={{ marginBottom: 20 }}>
-                    <Text style={{
-                        marginLeft: 20,
-                        fontSize: 25,
-                        fontWeight: "500",
-                        color: "#FF8000",
-                        fontFamily: Platform.select({
-                            android: 'Bangers_400Regular',
-                            ios: 'Bangers_400Regular',
-                        }),
-                    }}>Cardápio</Text>
-                    <View style={styles.flashListContent}>
-                        {mcDonaldsList.map((item, index) => (
-                            <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cartList} key={index}>
-                                <View style={{
-                                    width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
-                                    borderTopEndRadius: 10, borderTopStartRadius: 10,
-                                    overflow: "hidden"
-                                }}>
-                                    <Image source={{ uri: item.image }} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
-                                </View>
-                                <View style={{ padding: 10 }}>
-                                    <Text style={styles.text}>{item.name}</Text>
-                                    <Text style={[styles.text, { fontSize: 16, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+            <View>
+                <ScrollView>
+                    <View style={{ height: 50, width: "100%", paddingHorizontal: 10, borderRadius: 10, overflow: "hidden", marginBottom: 20 }}>
+                        <TextInput placeholder="Pesquisar" style={{ width: "100%", height: "100%", backgroundColor: "#EFEFEF", borderRadius: 10, }} />
                     </View>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                    <View style={{ paddingLeft: 20, justifyContent: "center", marginBottom: 20 }}>
+                        <Text style={{
+                            fontSize: 30,
+                            fontWeight: "500",
+                            color: "#FF8000",
+                            fontFamily: Platform.select({
+                                android: 'Bangers_400Regular',
+                                ios: 'Bangers_400Regular',
+                            }),
+                        }}>Mais pedidos</Text>
+                        <FlashList
+                            data={mcDonaldsMoreRequestData}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cart}>
+                                    <View style={{
+                                        width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
+                                        borderTopEndRadius: 10, borderTopStartRadius: 10, overflow: "hidden"
+                                    }}>
+                                        <Image source={item.image} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
+                                    </View>
+                                    <View style={{ padding: 10 }}>
+                                        <Text style={styles.text}>{item.name}</Text>
+                                        <Text style={[styles.text, { fontSize: 15, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            horizontal
+                            keyExtractor={(item, index) => index.toString()}
+                            estimatedItemSize={100}
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.flashMoreContent}
+                        />
+                    </View>
+                    <View style={{ marginBottom: height / 6 }}>
+                        <Text style={{
+                            marginLeft: 20,
+                            fontSize: 25,
+                            fontWeight: "500",
+                            color: "#FF8000",
+                            fontFamily: Platform.select({
+                                android: 'Bangers_400Regular',
+                                ios: 'Bangers_400Regular',
+                            }),
+                        }}>Cardápio</Text>
+                        <View style={styles.flashListContent}>
+                            {mcDonaldsList.map((item, index) => (
+                                <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cartList} key={index}>
+                                    <View style={{
+                                        width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
+                                        borderTopEndRadius: 10, borderTopStartRadius: 10,
+                                        overflow: "hidden"
+                                    }}>
+                                        <Image source={item.image} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
+                                    </View>
+                                    <View style={{ padding: 10 }}>
+                                        <Text style={styles.text}>{item.name}</Text>
+                                        <Text style={[styles.text, { fontSize: 16, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                </ScrollView>
+            </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     flashMoreContent: {
-        paddingBottom: 100
-    },
+        paddingBottom: height / 8
+    } as ViewStyle,
     cart: {
         padding: 1,
         width: 250,

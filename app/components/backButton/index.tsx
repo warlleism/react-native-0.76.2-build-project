@@ -1,12 +1,11 @@
 import { router, useNavigation } from "expo-router";
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import useCartStore from "@/app/context/cartProvider";
 import { useEffect } from "react";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-
-const { width, height } = Dimensions.get("window");
+import { Link } from 'expo-router';
 
 export default function BackButton() {
 
@@ -36,10 +35,10 @@ export default function BackButton() {
             <TouchableOpacity onPress={handleBack}>
                 <Feather name="arrow-left" size={34} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate("screens/Cart/index" as never)}>
+            <TouchableOpacity style={styles.cartButton} onPress={() => router.push('../../screens/Cart')}>
                 <AntDesign name="shoppingcart" size={34} color="black" />
                 <Animated.View style={[styles.cartBadge, animatedStyle]}>
-                    <Text style={styles.cartBadgeText}>{cart?.length == null ? 0 : cart?.length}</Text>
+                    <Text style={styles.cartBadgeText}>{cart?.length ?? 0}</Text>
                 </Animated.View>
             </TouchableOpacity>
         </View>
