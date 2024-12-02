@@ -34,17 +34,15 @@ export default function BackButton({ ...props }: { hidden?: Boolean, theme?: Boo
             <TouchableOpacity onPress={handleBack}>
                 <Feather name="arrow-left" size={34} color={props.theme ? "#fff" : "#000"} />
             </TouchableOpacity>
-            {
-                props.hidden ?
-                    <View />
-                    :
-                    <TouchableOpacity style={styles.cartButton} onPress={() => router.push('../../screens/Cart')}>
-                        <AntDesign name="shoppingcart" size={34} color={props.theme ? "#fff" : "#000"} />
-                        <Animated.View style={[styles.cartBadge, animatedStyle]}>
-                            <Text style={styles.cartBadgeText}>{cart?.length ?? 0}</Text>
-                        </Animated.View>
-                    </TouchableOpacity>
-            }
+            {props.hidden ?
+                <View />
+                :
+                <TouchableOpacity style={styles.cartButton} onPress={() => router.push('../../screens/Cart')}>
+                    <AntDesign name="shoppingcart" size={34} color={props.theme ? "#fff" : "#000"} />
+                    <Animated.View style={[styles.cartBadge, animatedStyle]}>
+                        <Text style={styles.cartBadgeText}>{cart?.length ?? 0}</Text>
+                    </Animated.View>
+                </TouchableOpacity>}
         </View>
     );
 }
@@ -55,10 +53,11 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         alignSelf: "center",
         flexDirection: "row",
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         justifyContent: "space-between",
     },
     cartButton: {
+        width: 50,
         position: "relative",
     },
     cartBadge: {
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
         width: 22,
         height: 22,
         top: -13,
-        right: -13,
+        right: 5,
         borderRadius: 50,
     },
     cartBadgeText: {

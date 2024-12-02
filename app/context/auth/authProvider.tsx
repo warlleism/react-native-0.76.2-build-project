@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const login = () => {
-        console.log("chamei")
         setIsAuthenticated(true)
     };
     const logout = () => setIsAuthenticated(false);

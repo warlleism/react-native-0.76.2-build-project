@@ -19,15 +19,15 @@ export default function Menu({ ...props }: { theme?: Boolean }) {
 
     return (
         <View style={styles.container}>
-            <View />
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-                <Text style={styles.nameTitulo}>Menu</Text>
+            <View style={{ width: "33.3%", height: 10 }} />
+            <View style={styles.menuTitle}>
+                <Text style={[styles.nameTitulo, { color: props.theme ? "#fff" : "#000", }]}>Menu</Text>
                 <Text style={[styles.nameTitulo, { color: "#FF3B00" }]}>Rapide</Text>
             </View>
             <TouchableOpacity style={styles.cartButton} onPress={() => navigation.openDrawer()}>
-                <View style={{ width: "75%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
-                <View style={{ width: "55%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
-                <View style={{ width: "45%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
+                <View style={[styles.barMenu, { backgroundColor: props.theme ? "#fff" : "#000", }]} />
+                <View style={[styles.barMenu, { width: 20, backgroundColor: props.theme ? "#fff" : "#000", }]} />
+                <View style={[styles.barMenu, { backgroundColor: props.theme ? "#fff" : "#000", }]} />
             </TouchableOpacity>
         </View>
     );
@@ -37,10 +37,18 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         paddingVertical: 10,
+        paddingHorizontal: 20,
         alignSelf: "center",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    menuTitle: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 2,
+        width: "33.3%"
     },
     nameTitulo: {
         fontSize: 20,
@@ -53,11 +61,16 @@ const styles = StyleSheet.create({
         }),
     },
     cartButton: {
-        width: 40,
+        width: "33.3%",
         height: 40,
         gap: 7,
         justifyContent: "center",
-        alignItems: "flex-start",
+        alignItems: "flex-end",
+    },
+    barMenu: {
+        width: 30,
+        height: 2,
+        borderRadius: 100
     },
     logo: {
         width: 50,

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Alert, Dimensions, Image, Platform, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Image, Platform, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { TextInput } from 'react-native-paper';
 import { Button } from 'react-native-paper';
 import { useAuth } from '../context/auth/authProvider';
 import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
+import useConfigStore from '../context/config/Provider';
 
 const { width, height } = Dimensions.get("window");
 
@@ -13,6 +14,12 @@ interface ProtectRouteProps {
 }
 
 const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
+
+    const { initialize } = useConfigStore();
+
+    React.useEffect(() => {
+        initialize();
+    }, [])
 
     const {
         register,
@@ -27,14 +34,12 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
             }
         });
 
-    console.log('errors', errors);
     const { login, isAuthenticated } = useAuth()
 
     const [fontsLoaded] = useFonts({
         Bangers_400Regular,
     });
     const onSubmit = (data: any) => {
-        console.log(data);
         login()
     };
     if (!isAuthenticated) {
@@ -76,27 +81,30 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 }),
                             }}>Seu restaurante favorito, na palma da mão!</Text>
                         </View>
-                        <Controller
-                            control={control}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    style={styles.input}
-                                    label="Email"
-                                    onBlur={onBlur}
-                                    onChangeText={value => onChange(value)}
-                                    value={value}
-                                />
-                            )}
-                            name="email"
-                            rules={{ required: true }}
-                        />
-                        {errors.email && <Text style={styles.error}>Email é obrigatório</Text>}
-
                         <View>
                             <Controller
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <TextInput
+                                        theme={{ colors: { primary: "#FF3B00" } }}
+                                        style={styles.input}
+                                        label="Email"
+                                        onBlur={onBlur}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                    />
+                                )}
+                                name="email"
+                                rules={{ required: true }}
+                            />
+                            <Text style={[styles.error, { opacity: errors.email ? 1 : 0, textAlign: "left" }]}>Email é obrigatório</Text>
+                        </View>
+                        <View>
+                            <Controller
+                                control={control}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        theme={{ colors: { primary: "#FF3B00" } }}
                                         style={styles.input}
                                         label="Senha"
                                         onBlur={onBlur}
@@ -107,18 +115,16 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 name="password"
                                 rules={{ required: true }}
                             />
-                            {errors.password && <Text style={styles.error}>Senha é obrigatória</Text>}
-                            <View style={{ alignItems: "flex-end", marginBottom: 20 }}>
-                                <TouchableOpacity style={{ width: width * 0.4 }}>
-                                    <Text style={{ textAlign: "right" }}>Esqueci minha senha</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <Text style={[styles.error, { opacity: errors.password ? 1 : 0, textAlign: "left" }]}>Senha é obrigatória</Text>
                         </View>
+                        <TouchableOpacity style={{ width: width * 0.4, marginTop: 10, marginBottom: 10, alignSelf: "center" }}>
+                            <Text style={{ textAlign: "center", }}>Esqueci minha senha</Text>
+                        </TouchableOpacity>
                         <Button
                             icon="login"
                             mode="contained"
                             onPress={handleSubmit(onSubmit)}
-                            style={{ width: width * 0.8, height: 60, justifyContent: "center", alignItems: "center", backgroundColor: "#FF3B00", borderRadius: 5 }}>
+                            style={{ backgroundColor: "#FF3B00", alignSelf: "center" }}>
                             <Text style={{ color: "#fff", fontSize: 15 }}>Entrar</Text>
                         </Button>
                     </View>
@@ -127,7 +133,6 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
             </View>
         );
     }
-
     return children;
 }
 
@@ -174,14 +179,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     input: {
-        width: width * 0.8,
         height: 40,
-        marginBottom: 16,
+        fontSize: 13,
+        width: width * 0.8,
         backgroundColor: '#fff',
     },
     error: {
-        color: 'red',
-        marginBottom: 10,
+        marginTop: 5,
+        width: width * 0.8,
+        color: '#0000004f',
         textAlign: 'center',
     },
 });

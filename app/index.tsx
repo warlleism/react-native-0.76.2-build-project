@@ -13,7 +13,7 @@ import Menu from './components/menu';
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
-    
+
     const router = useRouter();
     const { listProduct } = useListProduct();
     const { size, theme } = useConfigStore();
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     itens: {
         backgroundColor: "#E8E8E8",
         borderWidth: 1,
-        borderColor: "#D2D2D2",
+        borderColor: "#e1e1e17d",
         height: "100%",
         width: width / 2.9,
         borderRadius: 10,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         position: "relative",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#D2D2D2",
+        borderColor: "#e1e1e17d",
         backgroundColor: "#E8E8E8",
         width: width / 2.14,
         height: 150,

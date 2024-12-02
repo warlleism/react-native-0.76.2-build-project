@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
+import { router } from "expo-router";
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
 export default function NotFoundScreen() {
-  const navigation = useNavigation();
+
 
   return (
     <View style={styles.container}>
@@ -12,7 +12,7 @@ export default function NotFoundScreen() {
       <Text style={styles.description}>
         A página que você está procurando não existe ou foi removida.
       </Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation?.navigate('(tabs)' as never)}>
+      <TouchableOpacity style={styles.button} onPress={() => router?.navigate('/' as never)}>
         <Text style={styles.buttonText}>Voltar para a página inicial</Text>
       </TouchableOpacity>
     </View>

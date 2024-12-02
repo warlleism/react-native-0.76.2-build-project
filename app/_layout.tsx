@@ -56,6 +56,20 @@ export default function Layout() {
                                 headerShown: false,
                             }}
                         />
+                        <Drawer.Screen
+                            name="screens/Favorites/index"
+                            options={{
+                                title: 'Not Found',
+                                headerShown: false,
+                            }}
+                        />
+                        <Drawer.Screen
+                            name="+not-found"
+                            options={{
+                                title: 'Not Found',
+                                headerShown: false,
+                            }}
+                        />
                     </Drawer>
                 </GestureHandlerRootView>
             </ProtectRoute>

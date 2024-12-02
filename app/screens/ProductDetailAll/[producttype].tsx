@@ -9,9 +9,10 @@ import { Bangers_400Regular } from "@expo-google-fonts/bangers";
 import IProduct from "@/app/interfaces/product";
 import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
-const { width, height } = Dimensions.get("window");
 
+const { width, height } = Dimensions.get("window");
 type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
+
 export default function ProductsDetailAllScreen() {
 
     const router = useRouter();
@@ -47,7 +48,18 @@ export default function ProductsDetailAllScreen() {
             <View>
                 <ScrollView>
                     <View style={{ height: 50, width: "100%", paddingHorizontal: 10, borderRadius: 10, overflow: "hidden", marginBottom: 20 }}>
-                        <TextInput placeholder="Pesquisar" style={{ width: "100%", height: "100%", backgroundColor: "#EFEFEF", borderRadius: 10, }} />
+                        <TextInput
+                            placeholder="Pesquisar"
+                            placeholderTextColor={theme ? '#ffffffab' : '#000'}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderWidth: 1,
+                                borderRadius: 10,
+                                color: theme ? '#fff' : '#000',
+                                borderColor: theme ? '#ffffff2b' : '#f9f9f9',
+                                backgroundColor: theme ? '#323232' : "#EFEFEF",
+                            }} />
                     </View>
                     <View style={{ paddingLeft: 20, justifyContent: "center", marginBottom: 20 }}>
                         <Text style={{
@@ -120,7 +132,7 @@ export default function ProductsDetailAllScreen() {
 
 const styles = StyleSheet.create({
     flashMoreContent: {
-        paddingBottom: height / 8
+        paddingBottom: height / 8.9
     } as ViewStyle,
     cart: {
         padding: 1,

@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { useFonts } from '@expo-google-fonts/roboto';
 import { Bangers_400Regular } from '@expo-google-fonts/bangers';
 import BackButton from '@/app/components/backButton';
-export default function CartEmpty() {
+export default function CartEmptyScreen() {
   const router = useRouter();
 
   const [fontsLoaded] = useFonts({

@@ -5,4 +5,5 @@ export default interface ConfigState {
     setSize: (size: number | string) => void;
     currency: string;
     setCurrency: (currency: string) => void;
+    initialize: () => void
 }

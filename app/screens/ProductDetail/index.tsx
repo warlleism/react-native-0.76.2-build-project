@@ -6,12 +6,15 @@ import { Platform } from 'react-native';
 import useCartStore from "@/app/context/cart/cartProvider";
 import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import IProduct from "@/app/interfaces/product";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get("window");
 
 export default function ProductDetailScreen() {
 
-    const { product } = useListProduct();
+    const { product, addFavorite, favorites } = useListProduct();
     const { addProduct } = useCartStore();
     const { currency, theme } = useConfigStore();
 
@@ -19,18 +22,29 @@ export default function ProductDetailScreen() {
         Bangers_400Regular
     });
 
+    const favoriteExist = (product: IProduct) => {
+        const exist = favorites?.find((favorite: any) => favorite.name === product.name);
+        const isFavorite = exist ? <Ionicons name="heart-circle-sharp" size={50} color="red" /> : <Ionicons name="heart-circle-outline" size={50} color={"#2626261a"} />
+        return isFavorite
+    }
+
     if (!product) return null;
 
     return (
         <View style={[styles.main_container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
             <BackButton theme={theme} />
-            <View>
+            <View style={{ width: "100%", paddingHorizontal: 20, }}>
                 <View style={styles.imageContainer}>
                     <Image source={product.logo} style={styles.logo} />
                     <Image source={product.image} style={styles.productImage} />
                 </View>
-                <View style={{ padding: 20 }}>
-                    <Text style={styles.productName}>{product.name}</Text>
+                <View style={{ paddingVertical: 10 }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "95%" }}>
+                        <Text style={styles.productName}>{product.name}</Text>
+                        <TouchableOpacity onPress={() => addFavorite(product)}>
+                            {favoriteExist(product)}
+                        </TouchableOpacity>
+                    </View>
                     <Image source={product.logo} style={styles.logointer} />
                     <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>{product.description}</Text>
                     <Text style={[styles.price, { color: theme ? '#fff' : '#000' }]}>{currency == "USD" ? `$ ${product.price} ` : `R$ ${(Number(product.price) * 5).toFixed(2)}`}</Text>
@@ -53,13 +67,14 @@ export default function ProductDetailScreen() {
 const styles = StyleSheet.create({
     main_container: {
         backgroundColor: "#fff",
-        height: height,
+
         width: "100%",
+        flex: 1
     },
 
     imageContainer: {
         position: "relative",
-        width: width,
+        width: "100%",
         height: height / 2.7,
         justifyContent: "center",
         alignItems: "center",

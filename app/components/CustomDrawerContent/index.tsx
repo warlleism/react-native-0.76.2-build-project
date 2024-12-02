@@ -16,7 +16,7 @@ export default function CustomDrawerContent(props: any) {
 
     const { cart } = useCartStore();
     const { logout } = useAuth()
-    const { currency, theme, setTheme } = useConfigStore();
+    const { theme, setTheme } = useConfigStore();
 
     const handleLogout = () => {
         logout();
@@ -50,12 +50,8 @@ export default function CustomDrawerContent(props: any) {
                     <AntDesign name="shoppingcart" size={30} color={theme ? "#fff" : "#222222"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Carrinho</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Cart" as never)}>
+                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Favorites" as never)}>
                     <Ionicons name="fast-food-outline" size={30} color={theme ? "#fff" : "#222222"} />
-                    <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Todos pratos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Cart" as never)}>
-                    <MaterialIcons name="favorite-border" size={30} color={theme ? "#fff" : "#222222"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Favoritos</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Config" as never)}>
