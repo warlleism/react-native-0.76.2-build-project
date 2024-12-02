@@ -5,16 +5,19 @@ import { Platform } from 'react-native';
 import { useFonts } from '@expo-google-fonts/roboto';
 import { Bangers_400Regular } from '@expo-google-fonts/bangers';
 import HomeProducts from '@/assets/data/home-products/data';
-import useListProduct from './context/provider';
 import IProduct from './interfaces/product';
+import useListProduct from './context/listProvider/listProvider';
+import useConfigStore from './context/config/Provider';
 import Menu from './components/menu';
 
-
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
+    
     const router = useRouter();
     const { listProduct } = useListProduct();
+    const { size, theme } = useConfigStore();
+
     const [fontsLoaded] = useFonts({
         Bangers_400Regular
     });
@@ -29,11 +32,11 @@ export default function HomeScreen() {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <Menu />
+        <ScrollView style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff', }]}>
+            <Menu theme={theme} />
             <View>
                 <View style={styles.header}>
-                    <Text style={styles.title}>Restaurantes</Text>
+                    <Text style={[styles.title, { fontSize: size as number }]}>Restaurantes</Text>
                 </View>
                 <ScrollView
                     horizontal
@@ -41,47 +44,47 @@ export default function HomeScreen() {
                     showsHorizontalScrollIndicator={false}
                     style={styles.containerItens}
                     contentContainerStyle={styles.contentContainer}>
-                    <TouchableOpacity style={styles.itens} onPress={() => router.push('screens/ProductDetailAll/mcdonalds' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/mcdonalds' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/mcdonalds.png')} />
-                        <Text style={styles.itemText}>MC DONALDS</Text>
+                        <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>MC DONALDS</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itens} onPress={() => router.push('screens/ProductDetailAll/kfc' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/kfc' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/kfc.png')} />
-                        <Text style={styles.itemText}>KFC</Text>
+                        <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>KFC</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itens} onPress={() => router.push('screens/ProductDetailAll/burger_king' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/burger_king' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/bk.png')} />
-                        <Text style={styles.itemText}>BURGUER KING</Text>
+                        <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>BURGUER KING</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itens} onPress={() => router.push('screens/ProductDetailAll/bobs' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/bobs' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/bobs.png')} />
-                        <Text style={styles.itemText}>BOBS</Text>
+                        <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>BOBS</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
             <View style={styles.productSection}>
                 <View style={styles.productHeader}>
-                    <Text style={styles.productTitle}>Mais Pedidos</Text>
+                    <Text style={[styles.productTitle, { fontSize: size as number, color: theme ? '#fff' : '#313131', }]}>Mais Pedidos</Text>
                     <TouchableOpacity onPress={() => router.push('/screens/products' as never)} style={styles.seeAllButton}>
-                        <Text style={styles.seeAllText}>VER TODOS</Text>
+                        <Text style={[styles.seeAllText, { fontSize: size as number }]}>VER TODOS</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.productList}>
                     {HomeProducts.map((item: IProduct, index) => (
                         <TouchableOpacity
                             key={index}
-                            style={styles.productItem}
+                            style={[styles.productItem, { backgroundColor: theme ? '#313131' : '#fff' }]}
                             onPress={() => handleProduct(item)}>
                             <View style={styles.productLogoContainer}>
                                 <Image style={styles.productLogo} source={item.logo} />
                             </View>
                             <Image style={styles.productImage} source={item.image} />
-                            <Text style={styles.productName}>{item.name}</Text>
+                            <Text style={[styles.productName, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>{item.name}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
             </View>
-        </ScrollView >
+        </ScrollView>
     );
 }
 
@@ -91,10 +94,10 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     header: {
+        gap: 5,
         marginTop: 20,
         width: "100%",
-        height: 50,
-        gap: 5,
+        marginBottom: 10,
         paddingLeft: width * 0.02,
     },
     logo: {
@@ -103,8 +106,6 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     title: {
-        height: "100%",
-        fontSize: 25,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({
@@ -121,6 +122,8 @@ const styles = StyleSheet.create({
     },
     itens: {
         backgroundColor: "#E8E8E8",
+        borderWidth: 1,
+        borderColor: "#D2D2D2",
         height: "100%",
         width: width / 2.9,
         borderRadius: 10,
@@ -137,7 +140,6 @@ const styles = StyleSheet.create({
     itemText: {
         position: "absolute",
         bottom: 1,
-        fontSize: 15,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({
@@ -151,11 +153,11 @@ const styles = StyleSheet.create({
     productHeader: {
         width: "100%",
         display: "flex",
+        marginBottom: 10,
         flexDirection: "row",
         justifyContent: "space-between",
     },
     productTitle: {
-        fontSize: 25,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({
@@ -168,7 +170,6 @@ const styles = StyleSheet.create({
     },
     seeAllText: {
         color: "#FF8000",
-        fontSize: 20,
         fontFamily: Platform.select({
             android: 'Bangers_400Regular',
             ios: 'Bangers_400Regular',
@@ -176,7 +177,6 @@ const styles = StyleSheet.create({
     },
     productList: {
         paddingBottom: 50,
-        marginTop: 10,
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -186,6 +186,8 @@ const styles = StyleSheet.create({
     productItem: {
         position: "relative",
         borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#D2D2D2",
         backgroundColor: "#E8E8E8",
         width: width / 2.14,
         height: 150,
@@ -216,7 +218,6 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     productName: {
-        fontSize: 15,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({

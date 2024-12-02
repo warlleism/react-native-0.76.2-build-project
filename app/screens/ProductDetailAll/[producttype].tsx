@@ -7,16 +7,19 @@ import BackButton from "@/app/components/backButton";
 import { useFonts } from "@expo-google-fonts/roboto";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
 import IProduct from "@/app/interfaces/product";
-import useCounterStore from "@/app/context/provider";
+import useListProduct from "@/app/context/listProvider/listProvider";
+import useConfigStore from "@/app/context/config/Provider";
 const { width, height } = Dimensions.get("window");
 
 type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
 export default function ProductsDetailAllScreen() {
+
     const router = useRouter();
+    const { currency, theme } = useConfigStore();
     const [mcDonaldsMoreRequestData, setMcdonaldsMoreRequestData] = useState<any[]>([]);
     const [mcDonaldsList, setMcDonaldsList] = useState<any[]>([]);
     const { producttype } = useLocalSearchParams();
-    const { listProduct } = useCounterStore();
+    const { listProduct } = useListProduct();
     const [fontsLoaded] = useFonts({
         Bangers_400Regular
     });
@@ -39,8 +42,8 @@ export default function ProductsDetailAllScreen() {
     }
 
     return (
-        <View style={{ backgroundColor: "#fff", height: height }} >
-            <BackButton />
+        <View style={{ backgroundColor: theme ? '#313131' : '#fff', height: height }} >
+            <BackButton theme={theme} />
             <View>
                 <ScrollView>
                     <View style={{ height: 50, width: "100%", paddingHorizontal: 10, borderRadius: 10, overflow: "hidden", marginBottom: 20 }}>
@@ -58,17 +61,18 @@ export default function ProductsDetailAllScreen() {
                         }}>Mais pedidos</Text>
                         <FlashList
                             data={mcDonaldsMoreRequestData}
+                            extraData={theme}
                             renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cart}>
+                                <TouchableOpacity onPress={() => handleProduct(item)} style={[styles.cart, { backgroundColor: theme ? '#282828' : '#F9F9F9' }]}>
                                     <View style={{
-                                        width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
+                                        width: "100%", height: "50%", backgroundColor: theme ? '#313131' : '#fff', justifyContent: "center", alignItems: "center",
                                         borderTopEndRadius: 10, borderTopStartRadius: 10, overflow: "hidden"
                                     }}>
                                         <Image source={item.image} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
                                     </View>
                                     <View style={{ padding: 10 }}>
-                                        <Text style={styles.text}>{item.name}</Text>
-                                        <Text style={[styles.text, { fontSize: 15, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
+                                        <Text style={[styles.text, { color: theme ? '#fff' : '#313131' }]}>{item.name}</Text>
+                                        <Text style={[styles.text, { fontSize: 15, color: "#FF8000", textAlign: "center" }]}>{currency == "USD" ? `$ ${item.price} ` : `R$ ${(Number(item.price) * 5).toFixed(2)}`}</Text>
                                     </View>
                                 </TouchableOpacity>
                             )}
@@ -92,25 +96,25 @@ export default function ProductsDetailAllScreen() {
                         }}>Cardápio</Text>
                         <View style={styles.flashListContent}>
                             {mcDonaldsList.map((item, index) => (
-                                <TouchableOpacity onPress={() => handleProduct(item)} style={styles.cartList} key={index}>
+                                <TouchableOpacity onPress={() => handleProduct(item)} style={[styles.cartList, { backgroundColor: theme ? '#282828' : '#F9F9F9' }]} key={index}>
                                     <View style={{
-                                        width: "100%", height: "50%", backgroundColor: "#fff", justifyContent: "center", alignItems: "center",
+                                        width: "100%", height: "50%", backgroundColor: theme ? '#313131' : '#fff', justifyContent: "center", alignItems: "center",
                                         borderTopEndRadius: 10, borderTopStartRadius: 10,
                                         overflow: "hidden"
                                     }}>
                                         <Image source={item.image} style={{ width: "70%", height: "70%", resizeMode: "contain", borderRadius: 10, }} />
                                     </View>
                                     <View style={{ padding: 10 }}>
-                                        <Text style={styles.text}>{item.name}</Text>
-                                        <Text style={[styles.text, { fontSize: 16, color: "#FF8000", textAlign: "center" }]}>R${item.price}</Text>
+                                        <Text style={[styles.text, { color: theme ? '#fff' : '#313131' }]}>{item.name}</Text>
+                                        <Text style={[styles.text, { fontSize: 16, color: "#FF8000", textAlign: "center" }]}>{currency == "USD" ? `$ ${item.price} ` : `R$ ${(Number(item.price) * 5).toFixed(2)}`}</Text>
                                     </View>
                                 </TouchableOpacity>
                             ))}
                         </View>
                     </View>
                 </ScrollView>
-            </View>
-        </View>
+            </View >
+        </View >
     );
 };
 
@@ -127,7 +131,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
         alignItems: 'center',
-        backgroundColor: "#F9F9F9",
         justifyContent: "space-between",
     },
     cartList: {
@@ -137,7 +140,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
         alignItems: 'center',
-        backgroundColor: "#F9F9F9",
         justifyContent: "space-between",
     },
     text: {

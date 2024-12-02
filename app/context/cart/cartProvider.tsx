@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import IProduct from '../interfaces/product';
+import IProduct from '../../interfaces/product';
 
 interface CounterState {
     cart: IProduct[] | null;

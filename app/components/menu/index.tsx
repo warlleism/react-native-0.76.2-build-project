@@ -1,10 +1,8 @@
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Feather from '@expo/vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useFonts } from "@expo-google-fonts/roboto";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
-
+import { useNavigation } from "expo-router";
 
 type RootParamList = {
     Home: undefined;
@@ -12,7 +10,7 @@ type RootParamList = {
 
 type NavigationProp = DrawerNavigationProp<RootParamList>;
 
-export default function Menu() {
+export default function Menu({ ...props }: { theme?: Boolean }) {
 
     const navigation = useNavigation<NavigationProp>();
     const [fontsLoaded] = useFonts({
@@ -21,15 +19,15 @@ export default function Menu() {
 
     return (
         <View style={styles.container}>
-            <Image style={styles.logo} source={require('../../../assets/logos/logo.png')} />
+            <View />
             <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
                 <Text style={styles.nameTitulo}>Menu</Text>
                 <Text style={[styles.nameTitulo, { color: "#FF3B00" }]}>Rapide</Text>
             </View>
             <TouchableOpacity style={styles.cartButton} onPress={() => navigation.openDrawer()}>
-                <View style={{ width: "100%", height: 2, backgroundColor: "#000", borderRadius: 100 }} />
-                <View style={{ width: "70%", height: 2, backgroundColor: "#000", borderRadius: 100 }} />
-                <View style={{ width: "60%", height: 2, backgroundColor: "#363636", borderRadius: 100 }} />
+                <View style={{ width: "75%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
+                <View style={{ width: "55%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
+                <View style={{ width: "45%", height: 2, backgroundColor: props.theme ? "#fff" : "#000", borderRadius: 100 }} />
             </TouchableOpacity>
         </View>
     );
@@ -57,14 +55,13 @@ const styles = StyleSheet.create({
     cartButton: {
         width: 40,
         height: 40,
-        gap: 10,
+        gap: 7,
         justifyContent: "center",
         alignItems: "flex-start",
     },
     logo: {
         width: 50,
         height: 50,
-
         resizeMode: "contain",
     },
 });

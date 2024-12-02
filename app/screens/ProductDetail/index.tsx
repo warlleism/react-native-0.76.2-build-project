@@ -1,17 +1,19 @@
-import useCounterStore from "@/app/context/provider";
 import BackButton from "@/app/components/backButton";
 import { Bangers_400Regular } from "@expo-google-fonts/bangers";
 import { useFonts } from "@expo-google-fonts/roboto";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Platform } from 'react-native';
-import useCartStore from "@/app/context/cartProvider";
+import useCartStore from "@/app/context/cart/cartProvider";
+import useListProduct from "@/app/context/listProvider/listProvider";
+import useConfigStore from "@/app/context/config/Provider";
 
 const { width, height } = Dimensions.get("window");
 
 export default function ProductDetailScreen() {
 
-    const { product } = useCounterStore();
+    const { product } = useListProduct();
     const { addProduct } = useCartStore();
+    const { currency, theme } = useConfigStore();
 
     const [fontsLoaded] = useFonts({
         Bangers_400Regular
@@ -20,8 +22,8 @@ export default function ProductDetailScreen() {
     if (!product) return null;
 
     return (
-        <View style={styles.main_container}>
-            <BackButton />
+        <View style={[styles.main_container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
+            <BackButton theme={theme} />
             <View>
                 <View style={styles.imageContainer}>
                     <Image source={product.logo} style={styles.logo} />
@@ -30,8 +32,8 @@ export default function ProductDetailScreen() {
                 <View style={{ padding: 20 }}>
                     <Text style={styles.productName}>{product.name}</Text>
                     <Image source={product.logo} style={styles.logointer} />
-                    <Text style={styles.description}>{product.description}</Text>
-                    <Text style={styles.price}>R${product.price}</Text>
+                    <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>{product.description}</Text>
+                    <Text style={[styles.price, { color: theme ? '#fff' : '#000' }]}>{currency == "USD" ? `$ ${product.price} ` : `R$ ${(Number(product.price) * 5).toFixed(2)}`}</Text>
                 </View>
             </View>
             <View style={{
@@ -44,7 +46,6 @@ export default function ProductDetailScreen() {
                     <Text style={styles.buyButtonText}>Comprar</Text>
                 </TouchableOpacity>
             </View>
-
         </View>
     );
 }

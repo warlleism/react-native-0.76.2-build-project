@@ -1,5 +1,5 @@
+import IProduct from '@/app/interfaces/product';
 import { create } from 'zustand';
-import IProduct  from '../interfaces/product';
 interface CounterState {
     product: IProduct | null;
     listProduct: (data: IProduct) => void;

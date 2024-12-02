@@ -1,14 +1,15 @@
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
-import useCartStore from "../../context/cartProvider";
+import useCartStore from "../../context/cart/cartProvider";
 import BackButton from "../../components/backButton";
 import { FlashList } from "@shopify/flash-list";
 import { useEffect } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import CartEmpty from "@/app/components/CartEmpty";
+import CartEmpty from "@/app/screens/CartEmpty";
+import ProtectRoute from "@/app/auth/login";
 
 const { height } = Dimensions.get("window");
 
-export default function Cart() {
+export default function CartScreen() {
 
     const { cart, price, lessQtd, moreQtd, removeProduct, calcProducts } = useCartStore();
 
@@ -16,18 +17,30 @@ export default function Cart() {
         calcProducts();
     }, [cart]);
 
+
     return (
         <View style={{ flex: 1 }}>
             {
-                (cart !== null) ?
+                (cart && cart.length !== 0) ?
                     <View style={{ flex: 1 }}>
-                        <BackButton />
+                        <BackButton hidden />
                         <FlashList
                             data={cart}
                             renderItem={({ item, index }) => (
                                 <View style={[
-                                    index + 1 === cart?.length ? { marginBottom: height / 6 } : {},
-                                    , { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 90, paddingHorizontal: 10 }]}>
+                                    index + 1 === cart?.length ? { marginBottom: height / 6 } : { marginBottom: 10 },
+                                    , {
+                                        width: "95%",
+                                        alignSelf: "center",
+                                        borderRadius: 10,
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        height: 90,
+                                        paddingHorizontal: 10,
+                                        borderWidth: 1,
+                                        borderColor: "#D2D2D2",
+                                    }]}>
                                     <View style={{ width: "70%", flexDirection: 'row', alignItems: 'center', }}>
                                         <View>
                                             <Image source={item.image} style={{ width: 80, height: 100, objectFit: "contain" }} />
@@ -84,7 +97,6 @@ export default function Cart() {
                     :
                     <CartEmpty />
             }
-
         </View>
     )
 }
