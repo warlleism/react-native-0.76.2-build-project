@@ -1,32 +1,24 @@
 import BackButton from "@/app/components/backButton";
-import { Bangers_400Regular } from "@expo-google-fonts/bangers";
-import { useFonts } from "@expo-google-fonts/roboto";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Platform } from 'react-native';
 import useCartStore from "@/app/context/cart/cartProvider";
 import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import IProduct from "@/app/interfaces/product";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import FavoriteButton from "@/app/components/favoriteButton";
+import { useEffect } from "react";
 
 const { width, height } = Dimensions.get("window");
 
 export default function ProductDetailScreen() {
 
-    const { product, addFavorite, favorites } = useListProduct();
+    const { product, addFavorite, favorites, initialize } = useListProduct();
     const { addProduct } = useCartStore();
     const { currency, theme } = useConfigStore();
 
-    const [fontsLoaded] = useFonts({
-        Bangers_400Regular
-    });
-
-    const favoriteExist = (product: IProduct) => {
-        const exist = favorites?.find((favorite: any) => favorite.name === product.name);
-        const isFavorite = exist ? <Ionicons name="heart-circle-sharp" size={50} color="red" /> : <Ionicons name="heart-circle-outline" size={50} color={"#2626261a"} />
-        return isFavorite
-    }
+    useEffect(() => {
+        initialize()
+    }, [])
 
     if (!product) return null;
 
@@ -38,16 +30,14 @@ export default function ProductDetailScreen() {
                     <Image source={product.logo} style={styles.logo} />
                     <Image source={product.image} style={styles.productImage} />
                 </View>
-                <View style={{ paddingVertical: 10 }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "95%" }}>
-                        <Text style={styles.productName}>{product.name}</Text>
-                        <TouchableOpacity onPress={() => addFavorite(product)}>
-                            {favoriteExist(product)}
-                        </TouchableOpacity>
+                <View style={{ paddingVertical: 10, width: "100%" }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                        <Text style={[styles.productName, { color: theme ? '#fff' : '#000' }]}>{product.name}</Text>
+                        <FavoriteButton favorites={favorites} product={product} addFavorite={addFavorite} theme={theme} />
                     </View>
                     <Image source={product.logo} style={styles.logointer} />
                     <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>{product.description}</Text>
-                    <Text style={[styles.price, { color: theme ? '#fff' : '#000' }]}>{currency == "USD" ? `$ ${product.price} ` : `R$ ${(Number(product.price) * 5).toFixed(2)}`}</Text>
+                    <Text style={[styles.price, { color: theme ? '#fff' : '#000' }]}>{currency == "USD" ? `$ ${product.price} ` : `R$ ${(Number(product.price) * 6).toFixed(2)}`}</Text>
                 </View>
             </View>
             <View style={{
@@ -94,7 +84,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     productName: {
-        fontSize: 45,
+        fontSize: 40,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({
@@ -113,12 +103,13 @@ const styles = StyleSheet.create({
         }),
     },
     logointer: {
-        width: width / 7,
+        width: width / 9,
         height: width / 7,
-        resizeMode: "contain",
+        resizeMode: "cover",
+        marginBottom: 10
     },
     description: {
-        fontSize: 13,
+        fontSize: 16,
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({

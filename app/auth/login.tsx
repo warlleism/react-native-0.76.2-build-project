@@ -2,10 +2,9 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Dimensions, Image, Platform, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { TextInput } from 'react-native-paper';
-import { Button } from 'react-native-paper';
 import { useAuth } from '../context/auth/authProvider';
-import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 import useConfigStore from '../context/config/Provider';
+import SubmitButtom from '../components/submitButton';
 
 const { width, height } = Dimensions.get("window");
 
@@ -36,12 +35,6 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
 
     const { login, isAuthenticated } = useAuth()
 
-    const [fontsLoaded] = useFonts({
-        Bangers_400Regular,
-    });
-    const onSubmit = (data: any) => {
-        login()
-    };
     if (!isAuthenticated) {
         return (
             <View style={styles.container}>
@@ -120,13 +113,7 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                         <TouchableOpacity style={{ width: width * 0.4, marginTop: 10, marginBottom: 10, alignSelf: "center" }}>
                             <Text style={{ textAlign: "center", }}>Esqueci minha senha</Text>
                         </TouchableOpacity>
-                        <Button
-                            icon="login"
-                            mode="contained"
-                            onPress={handleSubmit(onSubmit)}
-                            style={{ backgroundColor: "#FF3B00", alignSelf: "center" }}>
-                            <Text style={{ color: "#fff", fontSize: 15 }}>Entrar</Text>
-                        </Button>
+                        <SubmitButtom handleSubmit={handleSubmit} login={login} />
                     </View>
                 </View>
 

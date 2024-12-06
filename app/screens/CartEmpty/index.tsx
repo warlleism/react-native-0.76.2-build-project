@@ -5,27 +5,25 @@ import { useRouter } from 'expo-router';
 import { useFonts } from '@expo-google-fonts/roboto';
 import { Bangers_400Regular } from '@expo-google-fonts/bangers';
 import BackButton from '@/app/components/backButton';
+import useConfigStore from '@/app/context/config/Provider';
 export default function CartEmptyScreen() {
   const router = useRouter();
-
-  const [fontsLoaded] = useFonts({
-    Bangers_400Regular
-  });
+  const { theme } = useConfigStore()
 
   return (
     <View style={{
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#f8f9fa'
+      backgroundColor: theme ? '#313131' : '#f8f9fa',
     }}>
       <View style={{ position: "absolute", top: 0 }}>
-        <BackButton hidden />
+        <BackButton hidden theme={theme} />
       </View>
       <View style={styles.container}>
-        <Feather name="shopping-cart" size={124} color="black" />
-        <Text style={styles.title}>Oops! Nenhum item no carrinho.</Text>
-        <Text style={styles.description}>
+        <Feather name="shopping-cart" size={124} color={theme ? '#fff' : '#000'} />
+        <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Oops! Nenhum item no carrinho.</Text>
+        <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>
           Temos ótimas opções para sua escolha!
         </Text>
         <TouchableOpacity style={styles.button} onPress={() => router.push('/' as never)}>

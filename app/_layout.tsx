@@ -15,7 +15,7 @@ export default function Layout() {
                         drawerContent={(props) => <CustomDrawerContent {...props} />}
                         screenOptions={{
                             drawerStyle: {
-                                width: "90%",
+                                width: "100%",
                             },
                             drawerType: 'slide',
                             drawerPosition: 'left',

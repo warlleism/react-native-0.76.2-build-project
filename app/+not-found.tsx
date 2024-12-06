@@ -1,15 +1,17 @@
 import { router } from "expo-router";
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import useConfigStore from "./context/config/Provider";
 
 export default function NotFoundScreen() {
 
+  const { theme } = useConfigStore();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
       <Image style={styles.logo} source={require('../assets/logos/404.png')} />
-      <Text style={styles.title}>Oops! Página não encontrada.</Text>
-      <Text style={styles.description}>
+      <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Oops! Página não encontrada.</Text>
+      <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>
         A página que você está procurando não existe ou foi removida.
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => router?.navigate('/' as never)}>

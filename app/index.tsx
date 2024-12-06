@@ -2,8 +2,6 @@ import React from 'react';
 import { useRouter } from 'expo-router';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Platform } from 'react-native';
-import { useFonts } from '@expo-google-fonts/roboto';
-import { Bangers_400Regular } from '@expo-google-fonts/bangers';
 import HomeProducts from '@/assets/data/home-products/data';
 import IProduct from './interfaces/product';
 import useListProduct from './context/listProvider/listProvider';
@@ -17,14 +15,6 @@ export default function HomeScreen() {
     const router = useRouter();
     const { listProduct } = useListProduct();
     const { size, theme } = useConfigStore();
-
-    const [fontsLoaded] = useFonts({
-        Bangers_400Regular
-    });
-
-    if (!fontsLoaded) {
-        return null;
-    }
 
     function handleProduct(data: IProduct) {
         listProduct(data);
@@ -114,14 +104,14 @@ const styles = StyleSheet.create({
         }),
     },
     containerItens: {
-        height: 140,
+        height: 170,
     },
     contentContainer: {
         alignItems: "center",
         gap: 6,
+        height: "100%"
     },
     itens: {
-        backgroundColor: "#E8E8E8",
         borderWidth: 1,
         borderColor: "#e1e1e17d",
         height: "100%",
@@ -134,13 +124,15 @@ const styles = StyleSheet.create({
     itemImage: {
         width: "60%",
         marginBottom: 10,
-        height: "60%",
+        height: "50%",
         resizeMode: "contain",
     },
     itemText: {
         position: "absolute",
-        bottom: 1,
+        bottom: 3,
+        width: "100%",
         fontWeight: "500",
+        textAlign: "center",
         color: "#323232",
         fontFamily: Platform.select({
             android: 'Bangers_400Regular',

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-    Dimensions,
     Image,
     Platform,
     StyleSheet,
@@ -9,13 +8,11 @@ import {
     View,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 import { FlashList } from '@shopify/flash-list';
 import useListProduct from '@/app/context/listProvider/listProvider';
 import useConfigStore from '@/app/context/config/Provider';
 import IProduct from '@/app/interfaces/product';
 import BackButton from '@/app/components/backButton';
-import { Feather } from '@expo/vector-icons';
 import Fontisto from '@expo/vector-icons/Fontisto';
 
 export default function FavoriteScreen() {
@@ -23,11 +20,6 @@ export default function FavoriteScreen() {
     const router = useRouter();
     const { size, theme, currency } = useConfigStore();
     const { listProduct, clearAllFavorites, removeFavorite, favorites, initialize } = useListProduct();
-
-    const [fontsLoaded] = useFonts({
-        Bangers_400Regular,
-    });
-
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('screens/ProductDetail' as never);
@@ -45,11 +37,11 @@ export default function FavoriteScreen() {
         }]}>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
                 <Image source={item.image} style={styles.image} />
-                <Text style={[styles.name, { fontFamily: 'Bangers_400Regular', fontSize: size as number }]}>{item.name}</Text>
+                <Text style={[styles.name, { width: 100, textAlign: "center", fontFamily: 'Bangers_400Regular', fontSize: size as number, color: theme ? '#fff' : '#000' }]}>{item.name}</Text>
             </View>
             <Image source={item.logo} style={styles.logo} />
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={[styles.name, { fontFamily: 'Bangers_400Regular', fontSize: size as number }]}>{currency == "USD" ? `$ ${item.price} ` : `R$ ${(Number(item.price) * 5).toFixed(2)}`}</Text>
+                <Text style={[styles.name, { fontFamily: 'Bangers_400Regular', fontSize: size as number, color: theme ? '#fff' : '#000' }]}>{currency == "USD" ? `$ ${item.price} ` : `R$ ${(Number(item.price) * 6).toFixed(2)}`}</Text>
                 <TouchableOpacity onPress={() => removeFavorite(item)}>
                     <Text style={{ color: "#FF1E00", fontSize: 15 }}>Remover</Text>
                 </TouchableOpacity>
@@ -59,13 +51,12 @@ export default function FavoriteScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
-
             {
                 favorites?.length == 0 ?
                     <View style={styles.containerEmpty}>
-                        <Fontisto name="favorite" size={124} color="black" />
+                        <Fontisto name="favorite" size={124} color={theme ? '#fff' : '#000'} />
                         <Text style={styles.titleEmpty}>Oops! Nenhum item favoritado.</Text>
-                        <Text style={styles.description}>
+                        <Text style={[styles.description, { color: theme ? '#fff' : '#555' }]}>
                             Temos ótimas opções para sua escolha!
                         </Text>
                         <TouchableOpacity style={styles.button} onPress={() => router.push('/' as never)}>
@@ -74,10 +65,10 @@ export default function FavoriteScreen() {
                     </View>
                     :
                     <View style={{ flex: 1 }}>
-                        <BackButton />
+                        <BackButton theme={theme} />
                         <View style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
                             <View style={styles.containeFavTitle}>
-                                <Text style={styles.title}>Favoritos</Text>
+                                <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Favoritos</Text>
                                 <TouchableOpacity
                                     onPress={() => clearAllFavorites()}>
                                     <Text style={{
@@ -88,6 +79,7 @@ export default function FavoriteScreen() {
                                 </TouchableOpacity>
                             </View>
                             <FlashList
+                                extraData={theme}
                                 data={favorites}
                                 renderItem={renderProduct}
                                 keyExtractor={(item, index) => index.toString()}
@@ -166,7 +158,6 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
-        color: '#555',
         textAlign: 'center',
         marginBottom: 30,
         fontFamily: Platform.select({

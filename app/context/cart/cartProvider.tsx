@@ -8,6 +8,7 @@ interface CounterState {
     moreQtd: (data: IProduct) => void;
     lessQtd: (data: IProduct) => void;
     removeProduct: (data: IProduct) => void;
+    clearAllCart: () => void;
     calcProducts: () => void;
 }
 
@@ -56,6 +57,8 @@ const useCartStore = create<CounterState>((set) => ({
         }, 0) : 0;
         return { price: totalValue };
     }),
+
+    clearAllCart: () => set(() => ({ cart: null, price: 0 }))
 
 }));
 
