@@ -4,7 +4,6 @@ import { Platform } from 'react-native';
 import useCartStore from "@/app/context/cart/cartProvider";
 import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
-import IProduct from "@/app/interfaces/product";
 import FavoriteButton from "@/app/components/favoriteButton";
 import { useEffect } from "react";
 
@@ -24,7 +23,7 @@ export default function ProductDetailScreen() {
 
     return (
         <View style={[styles.main_container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
-            <BackButton theme={theme} />
+            <BackButton />
             <View style={{ width: "100%", paddingHorizontal: 20, }}>
                 <View style={styles.imageContainer}>
                     <Image source={product.logo} style={styles.logo} />

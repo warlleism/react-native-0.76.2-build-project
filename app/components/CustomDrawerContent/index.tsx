@@ -1,4 +1,4 @@
-import { AntDesign, Entypo,  FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -17,7 +17,7 @@ export default function CustomDrawerContent(props: any) {
 
     const { cart } = useCartStore();
     const { logout } = useAuth()
-    const { theme } = useConfigStore();
+    const { theme, setUrl } = useConfigStore();
     const [showConfig, setShowConfig] = useState(false);
 
     const handleLogout = () => {
@@ -25,12 +25,25 @@ export default function CustomDrawerContent(props: any) {
         props.navigation.closeDrawer();
     };
 
+    function handleSetUrl(url: string) {
+
+
+        if (url !== "/") {
+            if (url === '../../screens/Favorites') {
+                setUrl(" screens/Favorites/index");
+            } else {
+                setUrl(url);
+            }
+        }
+        router.push(url as never);
+    };
+
     return (
         <View style={{ flex: 1, justifyContent: "space-between", backgroundColor: theme ? '#313131' : '#fff' }}>
             <BottomSideMenu showConfig={showConfig} setShowConfig={setShowConfig} />
             <View style={styles.logoContainer}>
-                <TouchableOpacity style={styles.cartButton} onPress={() => router.push("../../screens/Cart" as never)}>
-                    <AntDesign name="shoppingcart" size={24} color="red" />
+                <TouchableOpacity style={styles.cartButton} onPress={() => handleSetUrl("../../screens/Cart" as never)}>
+                    <AntDesign name="shoppingcart" size={24} color="#FF3B00" />
                     <View style={styles.cartBadge}>
                         <Text style={styles.cartBadgeText}>{cart?.length == null ? 0 : cart?.length}</Text>
                     </View>
@@ -45,41 +58,41 @@ export default function CustomDrawerContent(props: any) {
                 </TouchableOpacity>
             </View>
             <View style={styles.containerDrawerItem}>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("/" as never)}>
-                    <FontAwesome5 name="home" size={25} color={theme ? "#fff" : "#000"} />
+                <TouchableOpacity style={styles.drawerItem} onPress={() => handleSetUrl("/" as never)}>
+                    <FontAwesome5 name="home" size={25} color={"#FF3B00"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Início</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Cart" as never)}>
-                    <Entypo name="shopping-cart" size={25} color={theme ? "#fff" : "#000"} />
+                <TouchableOpacity style={styles.drawerItem} onPress={() => handleSetUrl("../../screens/Cart" as never)}>
+                    <Entypo name="shopping-cart" size={25} color={"#FF3B00"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Carrinho</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Favorites" as never)}>
-                    <MaterialIcons name="favorite" size={25} color={theme ? "#fff" : "#000"} />
+                <TouchableOpacity style={styles.drawerItem} onPress={() => handleSetUrl("../../screens/Favorites" as never)}>
+                    <MaterialIcons name="favorite" size={25} color={"#FF3B00"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Favoritos</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => router.push("../../screens/Config" as never)}>
-                    <Ionicons name="settings" size={25} color={theme ? "#fff" : "#000"} />
+                <TouchableOpacity style={styles.drawerItem} onPress={() => handleSetUrl("../../screens/Config" as never)}>
+                    <Ionicons name="settings" size={25} color={"#FF3B00"} />
                     <Text style={[styles.link, { color: theme ? "#fff" : "#222222" }]}>Configurações</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.userContainer}>
-                <TouchableOpacity style={styles.drawerItemUser} onPress={() => router.push("../../screens/Cart" as never)}>
-                    <FontAwesome name="user-circle-o" size={35} color={theme ? "#fff" : "#222222"} />
+                <TouchableOpacity style={styles.drawerItemUser} onPress={() => handleSetUrl("../../screens/Cart" as never)}>
+                    <FontAwesome name="user-circle-o" size={35} color={"#FF3B00"} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     {
                         theme ?
                             <TouchableOpacity onPress={() => setShowConfig(!showConfig)}>
-                                <MaterialIcons name="dark-mode" size={24} color="#fff" />
+                                <MaterialIcons name="dark-mode" size={24} color="#FF3B00" />
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={() => setShowConfig(!showConfig)}>
-                                <MaterialCommunityIcons name="white-balance-sunny" size={24} color="#303030" />
+                                <MaterialCommunityIcons name="white-balance-sunny" size={24} color="#FF3B00" />
                             </TouchableOpacity>
                     }
                 </View>
                 <TouchableOpacity style={styles.drawerItemUser} onPress={handleLogout}>
-                    <SimpleLineIcons name="logout" size={30} color={theme ? "#fff" : "#222222"} />
+                    <SimpleLineIcons name="logout" size={30} color={"#FF3B00"} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -101,7 +114,7 @@ const styles = StyleSheet.create({
         top: -13,
         right: -9,
         borderRadius: 50,
-        backgroundColor: "red"
+        backgroundColor: "#FF3B00"
     },
     cartBadgeText: {
         color: "white",
@@ -144,7 +157,7 @@ const styles = StyleSheet.create({
     drawerItem: {
         width: "100%",
         alignItems: "center",
-        gap: 30,
+        gap: 20,
         flexDirection: "row",
         fontSize: 18,
     },

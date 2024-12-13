@@ -14,7 +14,7 @@ export default function NotFoundScreen() {
       <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>
         A página que você está procurando não existe ou foi removida.
       </Text>
-      <TouchableOpacity style={styles.button} onPress={() => router?.navigate('/' as never)}>
+      <TouchableOpacity style={styles.button} onPress={() => router?.push('/' as never)}>
         <Text style={styles.buttonText}>Voltar para a página inicial</Text>
       </TouchableOpacity>
     </View>

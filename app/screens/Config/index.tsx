@@ -45,7 +45,7 @@ export default function ConfigScreen() {
                             }>
                             <Picker.Item label="Pequena" value={15} />
                             <Picker.Item label="Media" value={18} />
-                            <Picker.Item label="Grande" value={25} />
+                            <Picker.Item label="Grande" value={20} />
                         </Picker>
                     </View>
                     <View style={{ marginBottom: 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>

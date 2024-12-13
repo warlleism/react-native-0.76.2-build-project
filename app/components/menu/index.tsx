@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        gap: 2,
-        width: "33.3%"
+        width: "33.3%",
+        gap: 4
     },
     nameTitulo: {
-        fontSize: 20,
+        fontSize: 26,
         fontWeight: '500',
-        textAlign: 'center',
+        textAlign: 'left',
         color: "#323232",
         fontFamily: Platform.select({
             android: 'Bangers_400Regular',

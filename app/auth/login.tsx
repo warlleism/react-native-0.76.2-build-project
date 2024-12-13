@@ -14,7 +14,7 @@ interface ProtectRouteProps {
 
 const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
 
-    const { initialize } = useConfigStore();
+    const { initialize, theme } = useConfigStore();
 
     React.useEffect(() => {
         initialize();
@@ -37,8 +37,8 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
 
     if (!isAuthenticated) {
         return (
-            <View style={styles.container}>
-                <View style={styles.card}>
+            <View style={[styles.container, { backgroundColor: theme ? "#313131" : "#F6F6F6" }]}>
+                <View style={[styles.card, { backgroundColor: theme ? "#313131" : "#fff" }]}>
                     <View style={styles.form}>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
                             <Image
@@ -46,8 +46,8 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 source={require('../../assets/logos/logo.png')} />
                             <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
                                 <Text style={{
+                                    color: theme ? "#fff" : "#313131",
                                     fontSize: 30,
-                                    color: "#000",
                                     fontFamily: Platform.select({
                                         android: 'Bangers_400Regular',
                                         ios: 'Bangers_400Regular',
@@ -65,7 +65,7 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                             <Text style={{
                                 fontSize: 13,
                                 fontWeight: "100",
-                                color: "#4E4E4E",
+                                color: theme ? "#fff" : "#313131",
                                 marginBottom: 10,
                                 textAlign: "center",
                                 fontFamily: Platform.select({
@@ -90,7 +90,7 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 name="email"
                                 rules={{ required: true }}
                             />
-                            <Text style={[styles.error, { opacity: errors.email ? 1 : 0, textAlign: "left" }]}>Email é obrigatório</Text>
+                            <Text style={[styles.error, { opacity: errors.email ? 1 : 0, textAlign: "left", color: theme ? "#fff" : "#313131" }]}>Email é obrigatório</Text>
                         </View>
                         <View>
                             <Controller
@@ -108,10 +108,10 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 name="password"
                                 rules={{ required: true }}
                             />
-                            <Text style={[styles.error, { opacity: errors.password ? 1 : 0, textAlign: "left" }]}>Senha é obrigatória</Text>
+                            <Text style={[styles.error, { opacity: errors.password ? 1 : 0, textAlign: "left", color: theme ? "#fff" : "#313131" }]}>Senha é obrigatória</Text>
                         </View>
                         <TouchableOpacity style={{ width: width * 0.4, marginTop: 10, marginBottom: 10, alignSelf: "center" }}>
-                            <Text style={{ textAlign: "center", }}>Esqueci minha senha</Text>
+                            <Text style={{ textAlign: "center", color: theme ? "#fff" : "#313131" }}>Esqueci minha senha</Text>
                         </TouchableOpacity>
                         <SubmitButtom handleSubmit={handleSubmit} login={login} />
                     </View>
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#F6F6F6',
     },
     card: {
         justifyContent: 'center',
@@ -142,7 +141,6 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 24,
         borderRadius: 8,
-        backgroundColor: '#fff',
         borderWidth: 1,
         borderColor: '#e0e0e0',
     },

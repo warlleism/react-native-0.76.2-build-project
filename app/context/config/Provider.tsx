@@ -24,6 +24,15 @@ const useConfigStore = create<ConfigState>((set) => ({
     theme: false,
     size: 17,
     currency: 'USD',
+    url: ["/"],
+
+    setUrl: (url: string) => set((state) => ({
+        url: [...(state.url ?? []), url]
+    })),
+
+    urlPop: () => set((state) => ({
+        url: state.url && state.url.length > 1 ? state.url.slice(0, -1) : state.url
+      })),
 
     setTheme: async () => set((state) => {
         const newTheme = !state.theme;

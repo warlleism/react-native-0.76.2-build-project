@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRouter } from 'expo-router';
+import React, { useEffect } from 'react';
+import { router } from 'expo-router';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Platform } from 'react-native';
 import HomeProducts from '@/assets/data/home-products/data';
@@ -12,14 +12,23 @@ const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
 
-    const router = useRouter();
     const { listProduct } = useListProduct();
-    const { size, theme } = useConfigStore();
+    const { size, theme, setUrl, urlPop } = useConfigStore();
 
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('screens/ProductDetail' as never);
+        setUrl('screens/ProductDetail');
     }
+
+    function handleRestaurant(url: IProduct) {
+        router.push(url as never);
+        setUrl(url as never);
+    }
+
+    useEffect(() => {
+        urlPop();
+    }, [])
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff', }]}>
@@ -34,19 +43,19 @@ export default function HomeScreen() {
                     showsHorizontalScrollIndicator={false}
                     style={styles.containerItens}
                     contentContainerStyle={styles.contentContainer}>
-                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/mcdonalds' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => { handleRestaurant('screens/ProductDetailAll/mcdonalds' as never) }}>
                         <Image style={styles.itemImage} source={require('../assets/logos/mcdonalds.png')} />
                         <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>MC DONALDS</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/kfc' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => handleRestaurant('screens/ProductDetailAll/kfc' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/kfc.png')} />
                         <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>KFC</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/burger_king' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => handleRestaurant('screens/ProductDetailAll/burger_king' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/bk.png')} />
                         <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>BURGUER KING</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => router.push('screens/ProductDetailAll/bobs' as never)}>
+                    <TouchableOpacity style={[styles.itens, { backgroundColor: theme ? '#313131' : '#fff' }]} onPress={() => handleRestaurant('screens/ProductDetailAll/bobs' as never)}>
                         <Image style={styles.itemImage} source={require('../assets/logos/bobs.png')} />
                         <Text style={[styles.itemText, { fontSize: size as number, color: theme ? '#fff' : '#313131' }]}>BOBS</Text>
                     </TouchableOpacity>

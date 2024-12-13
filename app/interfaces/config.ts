@@ -1,9 +1,12 @@
 export default interface ConfigState {
-    theme: Boolean;
-    setTheme: (theme?: Boolean) => void;
+    theme: boolean;
+    setTheme: (theme?: boolean) => void;
     size: number | string;
     setSize: (size: number | string) => void;
     currency: string;
     setCurrency: (currency: string) => void;
-    initialize: () => void
-}
+    initialize: () => void;
+    setUrl: (url: string) => void;
+    urlPop: () => void;
+    url: string[] | null;
+};

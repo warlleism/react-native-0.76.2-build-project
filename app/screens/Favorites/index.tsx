@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import useListProduct from '@/app/context/listProvider/listProvider';
 import useConfigStore from '@/app/context/config/Provider';
@@ -15,14 +15,17 @@ import IProduct from '@/app/interfaces/product';
 import BackButton from '@/app/components/backButton';
 import Fontisto from '@expo/vector-icons/Fontisto';
 
+
 export default function FavoriteScreen() {
+    const pathname = usePathname();
 
     const router = useRouter();
-    const { size, theme, currency } = useConfigStore();
+    const { size, theme, currency, setUrl } = useConfigStore();
     const { listProduct, clearAllFavorites, removeFavorite, favorites, initialize } = useListProduct();
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('screens/ProductDetail' as never);
+        setUrl(pathname);
     }
 
     useEffect(() => {
@@ -65,7 +68,7 @@ export default function FavoriteScreen() {
                     </View>
                     :
                     <View style={{ flex: 1 }}>
-                        <BackButton theme={theme} />
+                        <BackButton />
                         <View style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff' }]}>
                             <View style={styles.containeFavTitle}>
                                 <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Favoritos</Text>

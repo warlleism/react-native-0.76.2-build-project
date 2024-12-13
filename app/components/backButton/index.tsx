@@ -5,15 +5,23 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import useCartStore from "@/app/context/cart/cartProvider";
 import { useEffect } from "react";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import useConfigStore from "@/app/context/config/Provider";
 
-export default function BackButton({ ...props }: { hidden?: Boolean, theme?: Boolean }) {
+export default function BackButton({ ...props }: { hidden?: Boolean, route?: String }) {
 
+    const { theme, url, setUrl, urlPop } = useConfigStore();
     const { cart } = useCartStore();
     const scale = useSharedValue(1);
     const color = useSharedValue("#FF1E00");
-
     const handleBack = () => {
-        router.back();
+        if (url) {
+            urlPop()
+            if (url.length > 2) {
+                router.push(url[url.length - 1] as never);
+            } else {
+                router.push(url[url.length - 2] as never);
+            }
+        }
     };
 
     useEffect(() => {
@@ -28,17 +36,22 @@ export default function BackButton({ ...props }: { hidden?: Boolean, theme?: Boo
         backgroundColor: color.value
     }));
 
+    console.log(url)
+
 
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleBack}>
-                <Feather name="arrow-left" size={34} color={props.theme ? "#fff" : "#000"} />
+                <Feather name="arrow-left" size={34} color={theme ? "#fff" : "#000"} />
             </TouchableOpacity>
             {props.hidden ?
                 <View />
                 :
-                <TouchableOpacity style={styles.cartButton} onPress={() => router.push('../../screens/Cart')}>
-                    <AntDesign name="shoppingcart" size={34} color={props.theme ? "#fff" : "#000"} />
+                <TouchableOpacity style={styles.cartButton} onPress={() => {
+                    router.push('../../screens/Cart')
+                    setUrl('../../screens/ProductDetail' as never)
+                }}>
+                    <AntDesign name="shoppingcart" size={34} color={theme ? "#fff" : "#000"} />
                     <Animated.View style={[styles.cartBadge, animatedStyle]}>
                         <Text style={styles.cartBadgeText}>{cart?.length ?? 0}</Text>
                     </Animated.View>

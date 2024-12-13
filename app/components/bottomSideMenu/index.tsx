@@ -8,6 +8,7 @@ import { Feather } from '@expo/vector-icons';
 const { width, height } = Dimensions.get("window");
 
 export default function BottomSideMenu({ showConfig, setShowConfig }: { showConfig: boolean, setShowConfig: any }) {
+    
     const modalizeRef = useRef<Modalize | null>(null);
     const { setTheme, size, setCurrency, currency, theme } = useConfigStore();
 

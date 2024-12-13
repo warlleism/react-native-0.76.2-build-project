@@ -6,7 +6,6 @@ import { AuthProvider } from './context/auth/authProvider';
 import ProtectRoute from './auth/login';
 
 export default function Layout() {
-
     return (
         <AuthProvider>
             <ProtectRoute>
