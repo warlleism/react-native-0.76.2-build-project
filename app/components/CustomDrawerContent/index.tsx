@@ -5,12 +5,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import useCartStore from "@/app/context/cart/cartProvider";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { useAuth } from "@/app/context/auth/authProvider";
 import useConfigStore from "@/app/context/config/Provider";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import BottomSideMenu from "../bottomSideMenu";
 import { useState } from "react";
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 const { width, height } = Dimensions.get("window");
 export default function CustomDrawerContent(props: any) {
@@ -19,6 +20,8 @@ export default function CustomDrawerContent(props: any) {
     const { logout } = useAuth()
     const { theme, setUrl } = useConfigStore();
     const [showConfig, setShowConfig] = useState(false);
+    const [fontsLoaded] = useFonts({ Bangers_400Regular });
+    const pathname = usePathname();
 
     const handleLogout = () => {
         logout();
@@ -26,17 +29,12 @@ export default function CustomDrawerContent(props: any) {
     };
 
     function handleSetUrl(url: string) {
-
-
-        if (url !== "/") {
-            if (url === '../../screens/Favorites') {
-                setUrl(" screens/Favorites/index");
-            } else {
-                setUrl(url);
-            }
-        }
         router.push(url as never);
     };
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <View style={{ flex: 1, justifyContent: "space-between", backgroundColor: theme ? '#313131' : '#fff' }}>

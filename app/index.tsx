@@ -7,28 +7,35 @@ import IProduct from './interfaces/product';
 import useListProduct from './context/listProvider/listProvider';
 import useConfigStore from './context/config/Provider';
 import Menu from './components/menu';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
 
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
+
     const { listProduct } = useListProduct();
-    const { size, theme, setUrl, urlPop } = useConfigStore();
+    const { size, theme, urlPop } = useConfigStore();
 
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('screens/ProductDetail' as never);
-        setUrl('screens/ProductDetail');
     }
 
     function handleRestaurant(url: IProduct) {
         router.push(url as never);
-        setUrl(url as never);
     }
 
     useEffect(() => {
         urlPop();
     }, [])
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff', }]}>

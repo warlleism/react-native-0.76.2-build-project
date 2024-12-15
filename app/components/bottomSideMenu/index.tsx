@@ -5,12 +5,16 @@ import useConfigStore from '@/app/context/config/Provider';
 import React from 'react'
 import { Switch } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 const { width, height } = Dimensions.get("window");
 
 export default function BottomSideMenu({ showConfig, setShowConfig }: { showConfig: boolean, setShowConfig: any }) {
-    
+
     const modalizeRef = useRef<Modalize | null>(null);
     const { setTheme, size, setCurrency, currency, theme } = useConfigStore();
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
 
     useEffect(() => {
         if (showConfig == true) {
@@ -31,6 +35,9 @@ export default function BottomSideMenu({ showConfig, setShowConfig }: { showConf
         setCurrency(newCurrency);
     };
 
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <Modalize

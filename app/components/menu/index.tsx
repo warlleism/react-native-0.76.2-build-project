@@ -17,6 +17,10 @@ export default function Menu({ ...props }: { theme?: Boolean }) {
         Bangers_400Regular
     });
 
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <View style={styles.container}>
             <View style={{ width: "33.3%", height: 10 }} />

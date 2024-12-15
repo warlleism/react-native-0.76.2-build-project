@@ -5,17 +5,26 @@ import { Text, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import { Feather } from '@expo/vector-icons';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 
 export default function ConfigScreen() {
 
     const { setTheme, setSize, size, setCurrency, currency, theme } = useConfigStore();
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
+    
     function toggleSwitch() {
         setTheme()
     };
 
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
-            <BackButton hidden theme={theme} />
+            <BackButton hidden />
             <View style={{ padding: 10 }}>
 
                 <View style={{ flexDirection: "row", gap: 10, alignItems: "center", borderBottomWidth: 1, borderBottomColor: theme ? '#fff' : '#00000026', paddingBottom: 20 }}>

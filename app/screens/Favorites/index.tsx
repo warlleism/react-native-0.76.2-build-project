@@ -14,18 +14,22 @@ import useConfigStore from '@/app/context/config/Provider';
 import IProduct from '@/app/interfaces/product';
 import BackButton from '@/app/components/backButton';
 import Fontisto from '@expo/vector-icons/Fontisto';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 
 
 export default function FavoriteScreen() {
     const pathname = usePathname();
 
     const router = useRouter();
-    const { size, theme, currency, setUrl } = useConfigStore();
+    const { size, theme, currency } = useConfigStore();
     const { listProduct, clearAllFavorites, removeFavorite, favorites, initialize } = useListProduct();
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
+
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('screens/ProductDetail' as never);
-        setUrl(pathname);
     }
 
     useEffect(() => {
@@ -51,6 +55,10 @@ export default function FavoriteScreen() {
             </View>
         </TouchableOpacity>
     );
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>

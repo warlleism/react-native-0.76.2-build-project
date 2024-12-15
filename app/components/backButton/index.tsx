@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -6,23 +6,31 @@ import useCartStore from "@/app/context/cart/cartProvider";
 import { useEffect } from "react";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import useConfigStore from "@/app/context/config/Provider";
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 export default function BackButton({ ...props }: { hidden?: Boolean, route?: String }) {
 
     const { theme, url, setUrl, urlPop } = useConfigStore();
+    const pathname = usePathname();
     const { cart } = useCartStore();
     const scale = useSharedValue(1);
     const color = useSharedValue("#FF1E00");
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
+
     const handleBack = () => {
         if (url) {
-            urlPop()
-            if (url.length > 2) {
-                router.push(url[url.length - 1] as never);
-            } else {
-                router.push(url[url.length - 2] as never);
-            }
+            urlPop();
+            const previousUrl = url[url.length - 2];
+            router.push(previousUrl as never);
         }
     };
+
+    useEffect(() => {
+        if (url?.includes(pathname)) return
+        setUrl(String(pathname));
+    }, [pathname])
 
     useEffect(() => {
         scale.value = 1.5;
@@ -36,8 +44,9 @@ export default function BackButton({ ...props }: { hidden?: Boolean, route?: Str
         backgroundColor: color.value
     }));
 
-    console.log(url)
-
+    if (!fontsLoaded) {
+        return null;
+    }
 
     return (
         <View style={styles.container}>
@@ -47,10 +56,7 @@ export default function BackButton({ ...props }: { hidden?: Boolean, route?: Str
             {props.hidden ?
                 <View />
                 :
-                <TouchableOpacity style={styles.cartButton} onPress={() => {
-                    router.push('../../screens/Cart')
-                    setUrl('../../screens/ProductDetail' as never)
-                }}>
+                <TouchableOpacity style={styles.cartButton} onPress={() => router.push('../../screens/Cart')}>
                     <AntDesign name="shoppingcart" size={34} color={theme ? "#fff" : "#000"} />
                     <Animated.View style={[styles.cartBadge, animatedStyle]}>
                         <Text style={styles.cartBadgeText}>{cart?.length ?? 0}</Text>

@@ -9,6 +9,7 @@ import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
 import { AntDesign } from "@expo/vector-icons";
 import SkeletonListProducts from "@/app/components/skeleton/skeleton";
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 const { width, height } = Dimensions.get("window");
 type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
@@ -16,7 +17,7 @@ type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
 export default function ProductsDetailAllScreen() {
 
     const router = useRouter();
-    const { currency, theme, setUrl } = useConfigStore();
+    const { currency, theme } = useConfigStore();
     const [mcDonaldsMoreRequestData, setMcdonaldsMoreRequestData] = useState<any[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
     const [isEmpty, setIsEmpty] = useState(false);
@@ -26,6 +27,9 @@ export default function ProductsDetailAllScreen() {
     const { listProduct } = useListProduct();
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [spinner, setSpinner] = useState(false);
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
 
     useEffect(() => {
         const getData = () => {
@@ -40,11 +44,9 @@ export default function ProductsDetailAllScreen() {
 
     }, [producttype]);
 
-
     function handleProduct(data: IProduct) {
         listProduct(data);
         router.push('../ProductDetail' as never);
-        setUrl( `screens/ProductDetailAll/${producttype}`);
     }
 
     function inputHandleChange(text: string) {
@@ -70,6 +72,11 @@ export default function ProductsDetailAllScreen() {
     }
 
     const data = filteredProducts.length > 0 ? filteredProducts : mcDonaldsList;
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <View style={{ backgroundColor: theme ? '#313131' : '#fff', height: height }}>
             <BackButton />
@@ -194,7 +201,6 @@ export default function ProductsDetailAllScreen() {
 
 const styles = StyleSheet.create({
     flashMoreContent: {
-        paddingBottom: height / 8
     } as ViewStyle,
     cart: {
         padding: 1,

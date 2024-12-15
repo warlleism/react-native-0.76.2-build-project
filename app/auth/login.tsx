@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-paper';
 import { useAuth } from '../context/auth/authProvider';
 import useConfigStore from '../context/config/Provider';
 import SubmitButtom from '../components/submitButton';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
 
 const { width, height } = Dimensions.get("window");
 
@@ -15,8 +16,11 @@ interface ProtectRouteProps {
 const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
 
     const { initialize, theme } = useConfigStore();
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
 
-    React.useEffect(() => {
+   React.useEffect(() => {
         initialize();
     }, [])
 
@@ -34,6 +38,10 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
         });
 
     const { login, isAuthenticated } = useAuth()
+    
+    if (!fontsLoaded) {
+        return null;
+    }
 
     if (!isAuthenticated) {
         return (

@@ -2,10 +2,19 @@ import { router } from "expo-router";
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import useConfigStore from "./context/config/Provider";
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 export default function NotFoundScreen() {
 
   const { theme } = useConfigStore();
+
+  const [fontsLoaded] = useFonts({
+    Bangers_400Regular
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: theme ? '#313131' : '#fff' }]}>

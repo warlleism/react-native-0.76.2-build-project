@@ -6,6 +6,7 @@ import useListProduct from "@/app/context/listProvider/listProvider";
 import useConfigStore from "@/app/context/config/Provider";
 import FavoriteButton from "@/app/components/favoriteButton";
 import { useEffect } from "react";
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 const { width, height } = Dimensions.get("window");
 
@@ -14,10 +15,17 @@ export default function ProductDetailScreen() {
     const { product, addFavorite, favorites, initialize } = useListProduct();
     const { addProduct } = useCartStore();
     const { currency, theme } = useConfigStore();
+    const [fontsLoaded] = useFonts({
+        Bangers_400Regular
+    });
 
     useEffect(() => {
         initialize()
     }, [])
+
+    if (!fontsLoaded) {
+        return null;
+    }
 
     if (!product) return null;
 

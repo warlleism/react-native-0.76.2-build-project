@@ -4,9 +4,19 @@ import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import BackButton from '@/app/components/backButton';
 import useConfigStore from '@/app/context/config/Provider';
+import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
+import LottieView from 'lottie-react-native';
 export default function CartEmptyScreen() {
+
   const router = useRouter();
   const { theme } = useConfigStore()
+  const [fontsLoaded] = useFonts({
+    Bangers_400Regular
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={{
@@ -16,10 +26,22 @@ export default function CartEmptyScreen() {
       backgroundColor: theme ? '#313131' : '#f8f9fa',
     }}>
       <View style={{ position: "absolute", top: 0 }}>
-        <BackButton hidden theme={theme} />
+        <BackButton hidden />
       </View>
       <View style={styles.container}>
-        <Feather name="shopping-cart" size={124} color={theme ? '#fff' : '#000'} />
+        <LottieView
+          autoPlay
+          loop
+          speed={1}
+          resizeMode="contain"
+          style={{
+            width: 200,
+            height: 200,
+            alignSelf: 'center',
+          }}
+          source={require('../../../assets/animations/animation2.json')}
+        />
+
         <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Oops! Nenhum item no carrinho.</Text>
         <Text style={[styles.description, { color: theme ? '#fff' : '#000' }]}>
           Temos ótimas opções para sua escolha!

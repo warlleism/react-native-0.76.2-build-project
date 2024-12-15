@@ -1,39 +1,48 @@
-import { Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import useCartStore from "../../context/cart/cartProvider";
 import BackButton from "../../components/backButton";
 import { FlashList } from "@shopify/flash-list";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import useConfigStore from "@/app/context/config/Provider";
 import CartEmptyScreen from "@/app/screens/CartEmpty";
-
+import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
+import LottieView from "lottie-react-native";
+import { router } from "expo-router";
 const { height } = Dimensions.get("window");
 
 export default function CartScreen() {
-
     const { cart, price, lessQtd, moreQtd, removeProduct, calcProducts, clearAllCart } = useCartStore();
     const { theme, currency, size } = useConfigStore();
+    const [loading, setLoading] = useState(false);
+    const [fontsLoaded] = useFonts({ Bangers_400Regular });
 
     useEffect(() => {
         calcProducts();
     }, [cart]);
 
+    function handleCheckout() {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            router.push('screens/Checkout' as never);
+        }, 3000);
+    }
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
             {
-                (cart && cart.length !== 0) ?
+                (cart && cart.length !== 0) ? (
                     <View style={{ flex: 1 }}>
-                        <BackButton hidden theme={theme} />
+                        <BackButton hidden />
                         <View style={styles.containeFavTitle}>
                             <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Carrinho</Text>
-                            <TouchableOpacity
-                                onPress={() => clearAllCart()}
-                            >
-                                <Text style={{
-                                    color: "#FF1E00",
-                                    fontFamily: 'Bangers_400Regular',
-                                    fontSize: size as number
-                                }}>Limpar</Text>
+                            <TouchableOpacity onPress={() => clearAllCart()}>
+                                <Text style={{ color: "#FF1E00", fontFamily: 'Bangers_400Regular', fontSize: size as number }}>Limpar</Text>
                             </TouchableOpacity>
                         </View>
                         <FlashList
@@ -42,7 +51,7 @@ export default function CartScreen() {
                             renderItem={({ item, index }) => (
                                 <View style={[
                                     index + 1 === cart?.length ? { marginBottom: height / 6 } : { marginBottom: 10 },
-                                    , {
+                                    {
                                         width: "95%",
                                         alignSelf: "center",
                                         borderRadius: 10,
@@ -52,13 +61,12 @@ export default function CartScreen() {
                                         height: 120,
                                         paddingHorizontal: 10,
                                         backgroundColor: theme ? '#4b4b4b' : "#7a7a7a0f",
-                                    }]}>
-                                    <View style={{ width: "70%", flexDirection: 'row', alignItems: 'center', }}>
-                                        <View>
-                                            <Image source={item.image} style={{ width: 80, height: 100, objectFit: "contain" }} />
-                                        </View>
+                                    }
+                                ]}>
+                                    <View style={{ width: "70%", flexDirection: 'row', alignItems: 'center' }}>
+                                        <Image source={item.image} style={{ width: 80, height: 100, objectFit: "contain" }} />
                                         <View style={{ flex: 1, marginLeft: 10, width: "45%" }}>
-                                            <Text style={{ width: "100%", color: theme ? '#fff' : '#000', }}>{item.name}</Text>
+                                            <Text style={{ width: "100%", color: theme ? '#fff' : '#000' }}>{item.name}</Text>
                                             <Text style={{ width: "100%", color: "#FF1E00", fontWeight: "600" }}>{currency == "USD" ? `$${item.price}` : `R$${(Number(item.price) * 6).toFixed(2)}`}</Text>
                                         </View>
                                     </View>
@@ -67,7 +75,7 @@ export default function CartScreen() {
                                             <TouchableOpacity style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => moreQtd(item)}>
                                                 <AntDesign name="plus" size={15} color={"#fff"} />
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={{ width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center", backgroundColor: "#FF1E00", borderRadius: 5, }}>
+                                            <TouchableOpacity style={{ width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center", backgroundColor: "#FF1E00", borderRadius: 5 }}>
                                                 <Text style={{ color: "#fff", fontWeight: "700" }}>{item.qtd}</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity disabled={item.qtd === 1} style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => lessQtd(item)}>
@@ -100,20 +108,52 @@ export default function CartScreen() {
                                 <Text style={{ color: "white", fontWeight: "700", fontSize: 20 }}>{currency == "USD" ? `$${price.toFixed(2)}` : `R$${(Number(price) * 6).toFixed(2)}`}</Text>
                             </View>
                             <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => handleCheckout()}>
                                     <AntDesign name="arrowright" size={34} color="white" />
                                 </TouchableOpacity>
                             </View>
                         </View>
                     </View>
-                    :
+                ) : (
                     <CartEmptyScreen />
+                )
             }
-        </View >
-    )
+
+            {
+                loading && (
+                    <View style={styles.animationContainer}>
+                        <LottieView
+                            autoPlay
+                            loop
+                            speed={1}
+                            resizeMode="contain"
+                            style={{
+                                width: "80%",
+                                height: "80%",
+                                alignSelf: 'center',
+                                backgroundColor: "#f2f2f2"
+                            }}
+                            source={require('../../../assets/animations/animation5.json')}
+                        />
+                    </View>
+                )
+            }
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
+    animationContainer: {
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        height: '100%',
+        elevation: 4,
+        backgroundColor: '#f2f2f2',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
     title: {
         fontSize: 24,
         color: '#000',
@@ -131,4 +171,4 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
-})
+});
