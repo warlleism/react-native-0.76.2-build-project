@@ -9,6 +9,7 @@ import CartEmptyScreen from "@/app/screens/CartEmpty";
 import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 import LottieView from "lottie-react-native";
 import { router } from "expo-router";
+import { ActivityIndicator } from "react-native-paper";
 const { height } = Dimensions.get("window");
 
 export default function CartScreen() {
@@ -16,17 +17,24 @@ export default function CartScreen() {
     const { theme, currency, size } = useConfigStore();
     const [loading, setLoading] = useState(false);
     const [fontsLoaded] = useFonts({ Bangers_400Regular });
+    const [spinner, setSpinner] = useState(false);
 
     useEffect(() => {
         calcProducts();
     }, [cart]);
 
     function handleCheckout() {
-        setLoading(true);
+        setSpinner(true);
+
+        setTimeout(() => {
+            setLoading(true);
+        }, 1000)
+
         setTimeout(() => {
             setLoading(false);
-            router.push('screens/Checkout' as never);
-        }, 3000);
+            setSpinner(false);
+            router.push('/screens/Checkout' as never);
+        }, 4000)
     }
 
     if (!fontsLoaded) {
@@ -72,10 +80,15 @@ export default function CartScreen() {
                                     </View>
                                     <View style={{ width: "25%", flexDirection: "column", alignItems: "center", gap: 5 }}>
                                         <View style={{ height: 50, overflow: "hidden", backgroundColor: theme ? '#0000001a' : "#FF1E00", borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <TouchableOpacity style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => moreQtd(item)}>
+                                            <TouchableOpacity style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center", }} onPress={() => moreQtd(item)}>
                                                 <AntDesign name="plus" size={15} color={"#fff"} />
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={{ width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center", backgroundColor: "#FF1E00", borderRadius: 5 }}>
+                                            <TouchableOpacity style={{
+                                                width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center",
+                                                borderRightWidth: 1,
+                                                borderLeftWidth: 1,
+                                                borderColor: '#ffffff96'
+                                            }}>
                                                 <Text style={{ color: "#fff", fontWeight: "700" }}>{item.qtd}</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity disabled={item.qtd === 1} style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => lessQtd(item)}>
@@ -109,7 +122,9 @@ export default function CartScreen() {
                             </View>
                             <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
                                 <TouchableOpacity onPress={() => handleCheckout()}>
-                                    <AntDesign name="arrowright" size={34} color="white" />
+                                    {spinner ? <ActivityIndicator size="small" color="#fff" /> :
+                                        <AntDesign name="arrowright" size={34} color="white" />
+                                    }
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -121,7 +136,7 @@ export default function CartScreen() {
 
             {
                 loading && (
-                    <View style={styles.animationContainer}>
+                    <View style={[styles.animationContainer, { backgroundColor: theme ? '#313131' : '#fff' }]}>
                         <LottieView
                             autoPlay
                             loop
@@ -131,14 +146,14 @@ export default function CartScreen() {
                                 width: "80%",
                                 height: "80%",
                                 alignSelf: 'center',
-                                backgroundColor: "#f2f2f2"
+                                backgroundColor: theme ? '#313131' : '#fff'
                             }}
                             source={require('../../../assets/animations/animation5.json')}
                         />
                     </View>
                 )
             }
-        </View>
+        </View >
     );
 }
 
@@ -149,7 +164,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         elevation: 4,
-        backgroundColor: '#f2f2f2',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,

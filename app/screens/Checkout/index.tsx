@@ -39,8 +39,6 @@ export default function CheckoutScreen() {
         }, 4000)
     }
 
-
-
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
             <BackButton hidden />
@@ -116,7 +114,7 @@ export default function CheckoutScreen() {
             {
                 loading &&
                 (
-                    <View style={styles.animationContainer}>
+                    <View style={[styles.animationContainer, { backgroundColor: theme ? '#313131' : '#fff' }]}>
                         <LottieView
                             autoPlay
                             loop
@@ -126,14 +124,14 @@ export default function CheckoutScreen() {
                                 width: "80%",
                                 height: "80%",
                                 alignSelf: 'center',
-                                backgroundColor: "#f2f2f2"
+                                backgroundColor: theme ? '#313131' : '#fff'
                             }}
                             source={require('../../../assets/animations/animation3.json')}
                         />
                     </View>
                 )
             }
-        </View>
+        </View >
     )
 }
 
@@ -144,7 +142,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         elevation: 4,
-        backgroundColor: '#f2f2f2',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,

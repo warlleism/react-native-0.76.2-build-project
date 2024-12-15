@@ -35,11 +35,12 @@ export default function CartEmptyScreen() {
           speed={1}
           resizeMode="contain"
           style={{
-            width: 200,
-            height: 200,
+            width: 120,
+            height: 120,
             alignSelf: 'center',
+            marginBottom: 50,
           }}
-          source={require('../../../assets/animations/animation2.json')}
+          source={theme ? require('../../../assets/animations/animation2-ligth.json') : require('../../../assets/animations/animation2.json')}
         />
 
         <Text style={[styles.title, { color: theme ? '#fff' : '#000' }]}>Oops! Nenhum item no carrinho.</Text>
