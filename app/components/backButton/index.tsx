@@ -1,4 +1,4 @@
-import { router, usePathname } from "expo-router";
+import { useRouter, usePathname } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -10,8 +10,8 @@ import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 
 export default function BackButton({ ...props }: { hidden?: Boolean, route?: String }) {
 
-    const { theme, url, setUrl, urlPop } = useConfigStore();
-    const pathname = usePathname();
+    const router = useRouter();
+    const { theme } = useConfigStore();
     const { cart } = useCartStore();
     const scale = useSharedValue(1);
     const color = useSharedValue("#FF1E00");
@@ -20,17 +20,13 @@ export default function BackButton({ ...props }: { hidden?: Boolean, route?: Str
     });
 
     const handleBack = () => {
-        if (url) {
-            urlPop();
-            const previousUrl = url[url.length - 2];
-            router.push(previousUrl as never);
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.push('/');
         }
     };
 
-    useEffect(() => {
-        if (url?.includes(pathname)) return
-        setUrl(String(pathname));
-    }, [pathname])
 
     useEffect(() => {
         scale.value = 1.5;
@@ -47,7 +43,7 @@ export default function BackButton({ ...props }: { hidden?: Boolean, route?: Str
     if (!fontsLoaded) {
         return null;
     }
-
+    
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleBack}>

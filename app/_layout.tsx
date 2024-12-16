@@ -11,6 +11,7 @@ export default function Layout() {
             {/* <ProtectRoute> */}
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <Drawer
+                    backBehavior="history"
                     drawerContent={(props) => <CustomDrawerContent {...props} />}
                     screenOptions={{
                         drawerStyle: {
@@ -43,6 +44,7 @@ export default function Layout() {
                     />
                     <Drawer.Screen
                         name="screens/Cart/index"
+                        key={"screens/Cart/index"}
                         options={{
                             title: 'Cart',
                             headerShown: false,

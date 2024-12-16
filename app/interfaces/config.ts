@@ -6,7 +6,4 @@ export default interface ConfigState {
     currency: string;
     setCurrency: (currency: string) => void;
     initialize: () => void;
-    setUrl: (url: string) => void;
-    urlPop: () => void;
-    url: string[] | null;
 };

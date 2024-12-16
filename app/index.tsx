@@ -18,7 +18,7 @@ export default function HomeScreen() {
     });
 
     const { listProduct } = useListProduct();
-    const { size, theme, urlPop } = useConfigStore();
+    const { size, theme } = useConfigStore();
 
     function handleProduct(data: IProduct) {
         listProduct(data);
@@ -28,10 +28,6 @@ export default function HomeScreen() {
     function handleRestaurant(url: IProduct) {
         router.push(url as never);
     }
-
-    useEffect(() => {
-        urlPop();
-    }, [])
 
     if (!fontsLoaded) {
         return null;

@@ -46,7 +46,7 @@ export default function ProductsDetailAllScreen() {
 
     function handleProduct(data: IProduct) {
         listProduct(data);
-        router.push('../ProductDetail' as never);
+        router.push('screens/ProductDetail' as never);
     }
 
     function inputHandleChange(text: string) {

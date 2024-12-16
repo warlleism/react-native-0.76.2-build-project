@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform } from 'react-native';
-import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import BackButton from '@/app/components/backButton';
 import useConfigStore from '@/app/context/config/Provider';
