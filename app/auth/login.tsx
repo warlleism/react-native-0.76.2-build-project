@@ -6,6 +6,7 @@ import { useAuth } from '../context/auth/authProvider';
 import useConfigStore from '../context/config/Provider';
 import SubmitButtom from '../components/submitButton';
 import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
+import { usePathname } from 'expo-router';
 
 const { width, height } = Dimensions.get("window");
 
@@ -19,10 +20,6 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
     const [fontsLoaded] = useFonts({
         Bangers_400Regular
     });
-
-   React.useEffect(() => {
-        initialize();
-    }, [])
 
     const {
         register,
@@ -38,7 +35,11 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
         });
 
     const { login, isAuthenticated } = useAuth()
-    
+
+    React.useEffect(() => {
+        initialize();
+    }, [])
+
     if (!fontsLoaded) {
         return null;
     }

@@ -46,7 +46,7 @@ export default function CartScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
             {
-                (cart && cart.length !== 0) ? (
+                (cart && cart?.length !== 0) ? (
                     <View style={{ flex: 1 }}>
                         <BackButton hidden />
                         <Recommended />

@@ -46,6 +46,8 @@ export default function ProductsDetailAllScreen() {
 
     function handleProduct(data: IProduct) {
         listProduct(data);
+        setText('');
+        setIsEmpty(false);
         router.push('screens/ProductDetail' as never);
     }
 

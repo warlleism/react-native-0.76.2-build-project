@@ -18,7 +18,7 @@ export default function CustomDrawerContent(props: any) {
 
     const { cart } = useCartStore();
     const { logout } = useAuth()
-    const { theme, setUrl } = useConfigStore();
+    const { theme } = useConfigStore();
     const [showConfig, setShowConfig] = useState(false);
     const [fontsLoaded] = useFonts({ Bangers_400Regular });
     const pathname = usePathname();

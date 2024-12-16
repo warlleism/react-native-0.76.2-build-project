@@ -15,6 +15,7 @@ import IProduct from '@/app/interfaces/product';
 import BackButton from '@/app/components/backButton';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
+import LottieView from 'lottie-react-native';
 
 
 export default function FavoriteScreen() {
@@ -62,10 +63,23 @@ export default function FavoriteScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
+            <BackButton hidden />
             {
                 favorites?.length == 0 ?
                     <View style={styles.containerEmpty}>
-                        <Fontisto name="favorite" size={124} color={theme ? '#fff' : '#000'} />
+                        <LottieView
+                            autoPlay
+                            loop
+                            speed={1}
+                            resizeMode="contain"
+                            style={{
+                                width: 120,
+                                height: 120,
+                                alignSelf: 'center',
+                                marginBottom: 50,
+                            }}
+                            source={theme ? require('../../../assets/animations/animation6-ligth.json') : require('../../../assets/animations/animation6.json')}
+                        />
                         <Text style={styles.titleEmpty}>Oops! Nenhum item favoritado.</Text>
                         <Text style={[styles.description, { color: theme ? '#fff' : '#555' }]}>
                             Temos ótimas opções para sua escolha!
