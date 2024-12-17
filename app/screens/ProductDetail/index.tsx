@@ -38,7 +38,7 @@ export default function ProductDetailScreen() {
                     <Image source={product.image} style={styles.productImage} />
                 </View>
                 <View style={{ paddingVertical: 10, width: "100%" }}>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
                         <Text style={[styles.productName, { color: theme ? '#fff' : '#000' }]}>{product.name}</Text>
                         <FavoriteButton favorites={favorites} product={product} addFavorite={addFavorite} theme={theme} />
                     </View>
@@ -64,7 +64,6 @@ export default function ProductDetailScreen() {
 const styles = StyleSheet.create({
     main_container: {
         backgroundColor: "#fff",
-
         width: "100%",
         flex: 1
     },
@@ -92,6 +91,7 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontSize: 40,
+        width: "80%",
         fontWeight: "500",
         color: "#323232",
         fontFamily: Platform.select({

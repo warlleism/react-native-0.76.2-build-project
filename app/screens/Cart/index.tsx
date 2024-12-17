@@ -60,21 +60,22 @@ export default function CartScreen() {
                         <FlashList
                             data={cart}
                             extraData={theme}
+                            contentContainerStyle={{ paddingBottom: height * 0.2 }}
                             renderItem={({ item, index }) => (
-                                <View style={[
-                                    index + 1 === cart?.length ? { marginBottom: height / 6 } : { marginBottom: 10 },
+                                <View style={
                                     {
+                                        marginBottom: 10,
                                         width: "95%",
                                         alignSelf: "center",
                                         borderRadius: 10,
                                         flexDirection: 'row',
                                         alignItems: 'center',
                                         justifyContent: 'space-between',
-                                        height: 120,
-                                        paddingHorizontal: 10,
+                                        height: 100,
+                                        paddingHorizontal: 30,
                                         backgroundColor: theme ? '#4b4b4b' : "#7a7a7a0f",
                                     }
-                                ]}>
+                                }>
                                     <View style={{ width: "70%", flexDirection: 'row', alignItems: 'center' }}>
                                         <Image source={item.image} style={{ width: 80, height: 100, objectFit: "contain" }} />
                                         <View style={{ flex: 1, marginLeft: 10, width: "45%" }}>
@@ -82,27 +83,25 @@ export default function CartScreen() {
                                             <Text style={{ width: "100%", color: "#FF1E00", fontWeight: "600" }}>{currency == "USD" ? `$${item.price}` : `R$${(Number(item.price) * 6).toFixed(2)}`}</Text>
                                         </View>
                                     </View>
-                                    <View style={{ width: "25%", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                                        <View style={{ height: 50, overflow: "hidden", backgroundColor: theme ? '#0000001a' : "#FF1E00", borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <TouchableOpacity disabled={item.qtd === 1} style={{ opacity: item.qtd === 1 ? 0.5 : 1, width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => lessQtd(item)}>
-                                                <AntDesign name="minus" size={15} color={"#fff"} />
+                                    <View style={{ width: "25%", flexDirection: "column", alignItems: "center", gap: 5, }}>
+                                        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 5, height: 40 }}>
+                                            <View style={{ height: "100%", width: 70, overflow: "hidden", backgroundColor: theme ? '#0000001a' : "#FF1E00", borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+                                                <TouchableOpacity disabled={item.qtd === 1} style={{ opacity: item.qtd === 1 ? 0.5 : 1, width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center" }} onPress={() => lessQtd(item)}>
+                                                    <AntDesign name="minus" size={15} color={"#fff"} />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={{
+                                                    width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center"
+                                                }}>
+                                                    <Text style={{ color: "#fff", fontWeight: "700" }}>{item.qtd}</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center", }} onPress={() => moreQtd(item)}>
+                                                    <AntDesign name="plus" size={15} color={"#fff"} />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <TouchableOpacity onPress={() => removeProduct(item)}>
+                                                <Entypo name="trash" size={20} color={"#FF1E00"} />
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={{
-                                                width: "33.3%", height: "65%", justifyContent: "center", alignItems: "center",
-                                                borderRightWidth: 1,
-                                                borderLeftWidth: 1,
-                                                borderColor: '#ffffff96'
-                                            }}>
-                                                <Text style={{ color: "#fff", fontWeight: "700" }}>{item.qtd}</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={{ width: "33.3%", height: "100%", justifyContent: "center", alignItems: "center", }} onPress={() => moreQtd(item)}>
-                                                <AntDesign name="plus" size={15} color={"#fff"} />
-                                            </TouchableOpacity>
-
                                         </View>
-                                        <TouchableOpacity onPress={() => removeProduct(item)}>
-                                            <Text style={{ color: "#FF1E00", fontSize: 15 as number, fontWeight: "300" }}>Remover</Text>
-                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             )}

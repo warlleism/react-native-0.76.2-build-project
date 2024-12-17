@@ -17,8 +17,9 @@ export default function FavoriteButton({
     const isFavorite = favorites?.some((favorite: IProduct) => favorite.name === product.name);
 
     return (
-        <TouchableOpacity onPress={() => addFavorite(product)}>
+        <TouchableOpacity onPress={() => addFavorite(product)} >
             <Ionicons
+                style={{ marginTop: 10 }}
                 name={isFavorite ? "heart-circle-sharp" : "heart-circle-outline"}
                 size={50}
                 color={theme ? '#fff' : isFavorite ? '#FF1E00' : "#2626261a"}

@@ -6,7 +6,6 @@ import { useAuth } from '../context/auth/authProvider';
 import useConfigStore from '../context/config/Provider';
 import SubmitButtom from '../components/submitButton';
 import { Bangers_400Regular, useFonts } from '@expo-google-fonts/bangers';
-import { usePathname } from 'expo-router';
 
 const { width, height } = Dimensions.get("window");
 
@@ -89,7 +88,8 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <TextInput
                                         theme={{ colors: { primary: "#FF3B00" } }}
-                                        style={styles.input}
+                                        textColor={theme ? "#fff" : "#313131"}
+                                        style={[styles.input, { backgroundColor: theme ? "#00000026" : "#fff" }]}
                                         label="Email"
                                         onBlur={onBlur}
                                         onChangeText={value => onChange(value)}
@@ -107,7 +107,8 @@ const ProtectRoute: React.FC<ProtectRouteProps> = ({ children }) => {
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <TextInput
                                         theme={{ colors: { primary: "#FF3B00" } }}
-                                        style={styles.input}
+                                        textColor={theme ? "#fff" : "#313131"}
+                                        style={[styles.input, { backgroundColor: theme ? "#00000026" : "#fff" }]}
                                         label="Senha"
                                         onBlur={onBlur}
                                         onChangeText={value => onChange(value)}
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
         padding: 24,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#e0e0e0',
+        borderColor: '#ffffff57',
     },
     form: {
         justifyContent: 'center',

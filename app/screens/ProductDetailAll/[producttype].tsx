@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import Products from "@/assets/data/products/data";
 import { Dimensions, ScrollView, StyleSheet, Text, View, Image, Platform, TouchableOpacity, TextInput, ViewStyle } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams, usePathname } from "expo-router";
 import BackButton from "@/app/components/backButton";
 import IProduct from "@/app/interfaces/product";
 import useListProduct from "@/app/context/listProvider/listProvider";
@@ -10,12 +10,12 @@ import useConfigStore from "@/app/context/config/Provider";
 import { AntDesign } from "@expo/vector-icons";
 import SkeletonListProducts from "@/app/components/skeleton/skeleton";
 import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
-
-const { width, height } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 type ProductType = 'mcdonalds' | 'kfc' | 'burger_king' | 'bobs';
 
 export default function ProductsDetailAllScreen() {
 
+    const pathname = usePathname();
     const router = useRouter();
     const { currency, theme } = useConfigStore();
     const [mcDonaldsMoreRequestData, setMcdonaldsMoreRequestData] = useState<any[]>([]);
@@ -41,13 +41,16 @@ export default function ProductsDetailAllScreen() {
             }
         };
         getData();
-
     }, [producttype]);
+
+    useEffect(() => {
+        setText('')
+        setFilteredProducts([])
+        setIsEmpty(false)
+    }, [pathname])
 
     function handleProduct(data: IProduct) {
         listProduct(data);
-        setText('');
-        setIsEmpty(false);
         router.push('screens/ProductDetail' as never);
     }
 
@@ -170,7 +173,7 @@ export default function ProductsDetailAllScreen() {
                         <View style={styles.flashListContent}>
                             {
                                 spinner ?
-                                    <SkeletonListProducts />
+                                    <SkeletonListProducts theme={theme} />
                                     :
                                     isEmpty === false ? data.map((item, index) => (
                                         <TouchableOpacity onPress={() => handleProduct(item)} style={[styles.cartList,

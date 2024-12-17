@@ -4,11 +4,11 @@ import SkeletonLoader from "expo-skeleton-loader";
 
 const { width } = Dimensions.get("window");
 
-export default function SkeletonListProducts() {
+export default function SkeletonListProducts({ theme }: { theme: boolean }) {
     return (
         <View>
             <SkeletonLoader>
-                <SkeletonLoader style={styles.container} highlightColor="#e3e3e3" boneColor="#EFEFEF" duration={500}>
+                <SkeletonLoader style={styles.container} highlightColor={theme ? "#7e7e7e" : "#e6e6e6"} boneColor={theme ? "#666666" : "#f2f2f2"} duration={500}>
                     <SkeletonLoader.Item
                         style={{
                             width: width / 2.3,

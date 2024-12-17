@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
     Image,
     Platform,
+    SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -63,7 +64,7 @@ export default function FavoriteScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme ? '#313131' : '#fff' }}>
-            <BackButton hidden />
+            {favorites?.length == 0 && <BackButton hidden />}
             {
                 favorites?.length == 0 ?
                     <View style={styles.containerEmpty}>
@@ -104,17 +105,18 @@ export default function FavoriteScreen() {
                                 </TouchableOpacity>
                             </View>
                             <FlashList
+                                showsVerticalScrollIndicator={false}
                                 extraData={theme}
                                 data={favorites}
                                 renderItem={renderProduct}
                                 keyExtractor={(item, index) => index.toString()}
                                 estimatedItemSize={150}
+                                contentContainerStyle={{ paddingBottom: 100 }}
                             />
-
                         </View>
                     </View>
             }
-        </View>
+        </View >
     );
 }
 
